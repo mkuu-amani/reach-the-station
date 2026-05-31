@@ -1,10 +1,253 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PSR Live</title>
+<meta charset="UTF-8">
+<title>PSR Live Hub</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: #0b0c10;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app {
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  gap: 16px;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 10px 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* CARD STYLE */
+.card {
+  background: #151820;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* COVER */
+#cover {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #222;
+}
+
+/* TRACK TEXT */
+#track {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.sub {
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* MESSAGE BOX */
+.panel {
+  background: #12141a;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #2a2f3a;
+  background: #0d0f14;
+  color: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #1db954;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #17a74a;
+}
+
+#status {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #cover {
+    width: 160px;
+    height: 160px;
+  }
+}
+</style>
 </head>
-<body style="background:#111;color:white;text-align:center;padding:50px;">
-  <h1>🎧 PSR LIVE PAGE WORKING</h1>
-  <p>If you see this, GitHub Pages is working.</p>
+
+<body>
+
+<div class="app">
+
+  <header>
+    <h1>🎧 Prodigal Sun Radio</h1>
+  </header>
+
+  <!-- NOW PLAYING -->
+  <div class="card">
+    <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+    <div>
+      <div id="track">Loading now playing...</div>
+      <div class="sub">Live from PSR Studio</div>
+    </div>
+  </div>
+
+  <!-- MESSAGE FORM -->
+  <div class="panel">
+    <h3>✉️ Send Message to HQ</h3>
+
+    <label>Name</label>
+    <input type="text" id="name">
+
+    <label>Message</label>
+    <textarea id="message"></textarea>
+
+    <button onclick="sendMessage()">Send Message</button>
+
+    <div id="status"></div>
+  </div>
+
+</div>
+
+<script>
+
+/* ======================
+   NOW PLAYING
+====================== */
+
+const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
+
+async function updateNowPlaying() {
+  try {
+    const res = await fetch(API, { cache: "no-store" });
+    const data = await res.json();
+
+    const artist = data.artist || "Unknown Artist";
+    const title = data.title || "Unknown Title";
+    const cover = data.cover || "https://i.imgur.com/QPevqGi.png";
+
+    document.getElementById("track").innerHTML =
+      "<b>" + artist + "</b><br>" + title;
+
+    document.getElementById("cover").src = cover;
+
+  } catch (e) {
+    document.getElementById("track").innerText =
+      "Unable to load now playing";
+  }
+}
+
+updateNowPlaying();
+setInterval(updateNowPlaying, 15000);
+
+/* ======================
+   SEND MESSAGE (HOOK)
+====================== */
+
+/*
+Replace this with:
+- Formspree
+- Zapier webhook
+- Google Apps Script email sender
+*/
+
+const ENDPOINT = "https://formspree.io/f/YOUR_ID_HERE";
+
+async function sendMessage() {
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const status = document.getElementById("status");
+
+  if (!name || !message) {
+    status.innerText = "Please fill in all fields";
+    return;
+  }
+
+  status.innerText = "Sending...";
+
+  try {
+    await fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        message,
+        station: "PSR Live Hub"
+      })
+    });
+
+    status.innerText = "Message sent to HQ ✔";
+    document.getElementById("name").value = "";
+    document.getElementById("message").value = "";
+
+  } catch (err) {
+    status.innerText = "Failed to send message";
+  }
+}
+
+</script>
+
 </body>
 </html>
