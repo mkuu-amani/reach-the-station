@@ -32,21 +32,18 @@ header h1 {
   font-size: 22px;
 }
 
-/* MAIN CARD */
+/* NOW PLAYING CARD */
 .card {
   background: #151820;
   border-radius: 16px;
   padding: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-
+  gap: 18px;
+  align-items: center;
   position: relative;
 }
 
-/* LIVE BADGE */
 .live {
   position: absolute;
   top: 10px;
@@ -58,14 +55,7 @@ header h1 {
   border-radius: 20px;
 }
 
-/* TOP SECTION */
-.now-top {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-
-/* COVER ART */
+/* ONLY COVER ART HERE */
 #cover {
   width: clamp(160px, 20vw, 220px);
   height: clamp(160px, 20vw, 220px);
@@ -74,12 +64,6 @@ header h1 {
 }
 
 /* TRACK TEXT */
-.meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 #track {
   font-size: 16px;
   line-height: 1.4;
@@ -91,31 +75,18 @@ header h1 {
   margin-top: 6px;
 }
 
-/* FULL WIDTH PLAYER ROW */
-.player-row {
+/* SIMPLE STREAM PLAYER (NO DUPLICATION) */
+.stream-player {
   width: 100%;
+  margin-top: 14px;
 }
 
-/* NEON PLAYER */
-.neon-player {
+audio {
   width: 100%;
-  border-radius: 14px;
-  overflow: hidden;
-
-  box-shadow:
-    0 0 12px rgba(0,229,255,0.25),
-    0 0 30px rgba(0,229,255,0.12);
+  outline: none;
 }
 
-.neon-player iframe {
-  width: 100%;
-  height: 120px;
-  border: 0;
-  display: block;
-  filter: saturate(1.1) contrast(1.05);
-}
-
-/* MESSAGE PANEL */
+/* MESSAGE FORM */
 .panel {
   background: #12141a;
   border-radius: 16px;
@@ -163,7 +134,7 @@ button:hover {
 
 /* MOBILE */
 @media (max-width: 600px) {
-  .now-top {
+  .card {
     flex-direction: column;
     text-align: center;
   }
@@ -184,31 +155,26 @@ button:hover {
     <h1>🎧 Prodigal Sun Radio</h1>
   </header>
 
-  <!-- NOW PLAYING -->
+  <!-- NOW PLAYING (SINGLE SOURCE OF TRUTH) -->
   <div class="card">
 
     <div class="live">LIVE</div>
 
-    <!-- TOP ROW -->
-    <div class="now-top">
-      <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+    <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
-      <div class="meta">
-        <div id="track">Loading now playing...</div>
-        <div class="sub">Live from PSR Studio</div>
+    <div>
+      <div id="track">Loading now playing...</div>
+      <div class="sub">Live from PSR Studio</div>
+
+      <!-- CLEAN STREAM PLAYER (YOUR DIRECT LINK) -->
+      <div class="stream-player">
+        <audio controls autoplay>
+          <source src="https://listen.radioking.com/radio/443393/stream/497783" type="audio/mpeg">
+          Your browser does not support audio playback.
+        </audio>
       </div>
-    </div>
 
-    <!-- PLAYER FULL WIDTH -->
-    <div class="player-row">
-      <div class="neon-player">
-        <iframe
-          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff&f=0&i=0&p=0&s=0&alb=0&li=0&popup=0&plc=0&h=undefined&l=110&v=2"
-          allow="autoplay">
-        </iframe>
-      </div>
     </div>
-
   </div>
 
   <!-- MESSAGE FORM -->
@@ -251,6 +217,7 @@ async function updateNowPlaying() {
 
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
+
 
 /* FORMSPREE */
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
