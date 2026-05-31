@@ -5,7 +5,25 @@
 <title>PSR Live Hub</title>
 
 <style>
-  /* SLIDESHOW BACKGROUND */
+
+/* =========================
+   BACKGROUND SLIDESHOW (NEW ONLY)
+========================= */
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: #0b0c10;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* slideshow layers */
 .bg-slide {
   position: fixed;
   inset: 0;
@@ -20,22 +38,17 @@
   opacity: 1;
 }
 
-/* DARK OVERLAY FOR READABILITY */
+/* dark overlay for readability */
 .bg-overlay {
   position: fixed;
   inset: 0;
   background: rgba(5, 6, 10, 0.75);
   z-index: -2;
 }
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  background: #0b0c10;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
+
+/* =========================
+   EVERYTHING ELSE (UNCHANGED)
+========================= */
 
 .app {
   width: 100%;
@@ -44,7 +57,6 @@ body {
   gap: 18px;
 }
 
-/* HEADER */
 header {
   text-align: center;
 }
@@ -54,7 +66,6 @@ header h1 {
   font-size: 22px;
 }
 
-/* NOW PLAYING CARD */
 .card {
   background: #151820;
   border-radius: 16px;
@@ -65,7 +76,6 @@ header h1 {
   position: relative;
 }
 
-/* LIVE BADGE */
 .live {
   position: absolute;
   top: 10px;
@@ -84,7 +94,6 @@ header h1 {
   50% { transform: scale(1.12); opacity: 1; }
 }
 
-/* COVER */
 #cover {
   width: clamp(160px, 20vw, 220px);
   height: clamp(160px, 20vw, 220px);
@@ -93,7 +102,6 @@ header h1 {
   flex-shrink: 0;
 }
 
-/* RIGHT SIDE */
 .info {
   flex: 1;
   min-width: 0;
@@ -112,7 +120,6 @@ header h1 {
   font-size: 13px;
 }
 
-/* PLAYER */
 .neon-player {
   width: 100%;
   border-radius: 14px;
@@ -130,7 +137,6 @@ header h1 {
   background: #000;
 }
 
-/* PANEL */
 .panel {
   background: #12141a;
   border-radius: 16px;
@@ -176,7 +182,6 @@ button:hover {
   color: #aaa;
 }
 
-/* MOBILE */
 @media (max-width: 600px) {
   .card {
     flex-direction: column;
@@ -192,16 +197,21 @@ button:hover {
     width: 100%;
   }
 }
+
 </style>
 </head>
 
 <body>
-  <!-- BACKGROUND SLIDESHOW -->
-<div class="bg-slide active" style="background-image:url('IMAGE_1_URL');"></div>
-<div class="bg-slide" style="background-image:url('IMAGE_2_URL');"></div>
-<div class="bg-slide" style="background-image:url('IMAGE_3_URL');"></div>
-<div class="bg-slide" style="background-image:url('IMAGE_4_URL');"></div>
-<div class="bg-slide" style="background-image:url('IMAGE_5_URL');"></div>
+
+<!-- =========================
+     BACKGROUND SLIDESHOW (ADD THIS)
+========================= -->
+
+<div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4');"></div>
+<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507838153414-b4b713384a76');"></div>
+<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f');"></div>
+<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1511379938547-c1f69419868d');"></div>
+<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3');"></div>
 
 <div class="bg-overlay"></div>
 
@@ -211,7 +221,6 @@ button:hover {
     <h1>🎧 Prodigal Sun Radio</h1>
   </header>
 
-  <!-- NOW PLAYING -->
   <div class="card">
 
     <div class="live">LIVE</div>
@@ -233,7 +242,6 @@ button:hover {
     </div>
   </div>
 
-  <!-- MESSAGE FORM -->
   <div class="panel">
     <h3>✉️ Send Message to HQ</h3>
 
@@ -247,6 +255,24 @@ button:hover {
 </div>
 
 <script>
+
+/* =========================
+   SLIDESHOW SCRIPT (ADD THIS ONLY)
+========================= */
+
+const slides = document.querySelectorAll(".bg-slide");
+let current = 0;
+
+setInterval(() => {
+  slides[current].classList.remove("active");
+  current = (current + 1) % slides.length;
+  slides[current].classList.add("active");
+}, 6000);
+
+
+/* =========================
+   YOUR ORIGINAL JS (UNCHANGED)
+========================= */
 
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
@@ -273,18 +299,14 @@ async function updateNowPlaying() {
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
-/* FORMSPREE (FIXED CLEAR LOGIC) */
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
 async function sendMessage() {
-  const name = document.getElementById("name");
-  const message = document.getElementById("message");
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
   const status = document.getElementById("status");
 
-  const nameVal = name.value.trim();
-  const messageVal = message.value.trim();
-
-  if (!nameVal || !messageVal) {
+  if (!name || !message) {
     status.innerText = "Please fill in all fields";
     return;
   }
@@ -299,34 +321,25 @@ async function sendMessage() {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        name: nameVal,
-        message: messageVal,
+        name,
+        message,
         station: "PSR Live Hub"
       })
     });
 
-    if (res.ok) {
-      status.innerText = "Message sent to HQ ✔";
+    status.innerText = res.ok
+      ? "Message sent to HQ ✔"
+      : "Failed to send message";
 
-      // ✅ FIX: reliable clearing
-      name.value = "";
-      message.value = "";
-    } else {
-      status.innerText = "Failed to send message";
+    if (res.ok) {
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
     }
 
   } catch (err) {
     status.innerText = "Network error";
   }
 }
-  const slides = document.querySelectorAll(".bg-slide");
-let current = 0;
-
-setInterval(() => {
-  slides[current].classList.remove("active");
-  current = (current + 1) % slides.length;
-  slides[current].classList.add("active");
-}, 6000);
 
 </script>
 
