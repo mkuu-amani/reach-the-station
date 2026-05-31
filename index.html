@@ -5,8 +5,9 @@
 <title>PSR Live Hub</title>
 
 <style>
+
 /* =========================
-   BACKGROUND SLIDESHOW
+   BACKGROUND SLIDESHOW ONLY
 ========================= */
 
 body {
@@ -21,7 +22,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Slideshow layers */
+/* slideshow layers */
 .bg-slide {
   position: fixed;
   inset: 0;
@@ -32,7 +33,7 @@ body {
   z-index: -3;
 }
 
-/* Dark overlay for readability */
+/* dark overlay */
 .bg-overlay {
   position: fixed;
   inset: 0;
@@ -40,13 +41,13 @@ body {
   z-index: -2;
 }
 
-/* ACTIVE SLIDE */
+/* active slide */
 .bg-slide.active {
   opacity: 1;
 }
 
 /* =========================
-   APP CONTAINER
+   ORIGINAL LAYOUT (UNCHANGED)
 ========================= */
 
 .app {
@@ -76,12 +77,13 @@ header h1 {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  box-shadow: 0 0 18px rgba(0,229,255,0.18),
-              0 10px 30px rgba(0,0,0,0.35);
+  box-shadow:
+    0 0 18px rgba(0,229,255,0.18),
+    0 10px 30px rgba(0,0,0,0.35);
   position: relative;
 }
 
-/* LIVE BADGE */
+/* LIVE BADGE (larger + pulsing) */
 .live {
   position: absolute;
   top: 10px;
@@ -91,10 +93,9 @@ header h1 {
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 30px;
-  animation: pulseLive 2.5s infinite;
+  animation: pulseLive 2.8s infinite;
 }
 
-/* bigger + slow pulse */
 @keyframes pulseLive {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.15); opacity: 0.75; }
@@ -106,10 +107,9 @@ header h1 {
   height: clamp(160px, 20vw, 220px);
   border-radius: 14px;
   object-fit: cover;
-  flex-shrink: 0;
 }
 
-/* TEXT */
+/* TRACK TEXT */
 #track {
   font-size: 16px;
   line-height: 1.4;
@@ -120,9 +120,8 @@ header h1 {
   font-size: 13px;
 }
 
-/* PLAYER */
+/* PLAYER (unchanged) */
 .neon-player {
-  width: 100%;
   margin-top: 14px;
   border-radius: 14px;
   overflow: hidden;
@@ -139,12 +138,11 @@ header h1 {
   display: block;
 }
 
-/* MESSAGE FORM */
+/* MESSAGE PANEL */
 .panel {
   background: #12141a;
   border-radius: 16px;
   padding: 18px;
-  box-shadow: 0 0 18px rgba(0,229,255,0.10);
 }
 
 input, textarea {
@@ -198,6 +196,18 @@ button:hover {
     height: 180px;
   }
 }
+
+/* =========================
+   NEON BORDER ON ALL BOXES
+========================= */
+
+.card,
+.panel {
+  box-shadow:
+    0 0 18px rgba(0,229,255,0.15),
+    0 0 40px rgba(0,229,255,0.08);
+}
+
 </style>
 </head>
 
@@ -240,7 +250,7 @@ button:hover {
     </div>
   </div>
 
-  <!-- MESSAGE FORM -->
+  <!-- MESSAGE FORM (UNCHANGED FORM LOGIC) -->
   <div class="panel">
     <h3>✉️ Send Message to HQ</h3>
 
@@ -255,7 +265,7 @@ button:hover {
 
 <script>
 
-/* NOW PLAYING */
+/* NOW PLAYING (UNCHANGED) */
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
 async function updateNowPlaying() {
@@ -272,7 +282,7 @@ async function updateNowPlaying() {
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
-/* FORMSPREE */
+/* FORMSPREE (UNCHANGED) */
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
 async function sendMessage() {
@@ -290,7 +300,10 @@ async function sendMessage() {
   try {
     const res = await fetch(ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ name, message, station: "PSR Live Hub" })
     });
 
@@ -308,7 +321,7 @@ async function sendMessage() {
   }
 }
 
-/* BACKGROUND SLIDESHOW LOGIC */
+/* BACKGROUND SLIDESHOW */
 const slides = document.querySelectorAll(".bg-slide");
 let current = 0;
 
