@@ -32,18 +32,21 @@ header h1 {
   font-size: 22px;
 }
 
-/* NOW PLAYING CARD */
+/* MAIN CARD */
 .card {
   background: #151820;
   border-radius: 16px;
   padding: 18px;
-  display: flex;
-  gap: 18px;
-  align-items: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
   position: relative;
 }
 
+/* LIVE BADGE */
 .live {
   position: absolute;
   top: 10px;
@@ -55,7 +58,14 @@ header h1 {
   border-radius: 20px;
 }
 
-/* ONLY COVER ART HERE */
+/* TOP SECTION */
+.now-top {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+/* COVER ART */
 #cover {
   width: clamp(160px, 20vw, 220px);
   height: clamp(160px, 20vw, 220px);
@@ -64,6 +74,12 @@ header h1 {
 }
 
 /* TRACK TEXT */
+.meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 #track {
   font-size: 16px;
   line-height: 1.4;
@@ -75,29 +91,31 @@ header h1 {
   margin-top: 6px;
 }
 
-/* =========================
-   CUSTOM NEON AUDIO PLAYER
-   (REPLACES IFRAME COMPLETELY)
-========================= */
+/* FULL WIDTH PLAYER ROW */
+.player-row {
+  width: 100%;
+}
 
+/* NEON PLAYER */
 .neon-player {
-  margin-top: 14px;
-  padding: 10px;
+  width: 100%;
   border-radius: 14px;
-  background: #0d0f14;
+  overflow: hidden;
 
   box-shadow:
     0 0 12px rgba(0,229,255,0.25),
     0 0 30px rgba(0,229,255,0.12);
 }
 
-audio {
+.neon-player iframe {
   width: 100%;
-  outline: none;
-  filter: drop-shadow(0 0 10px rgba(0,229,255,0.25));
+  height: 120px;
+  border: 0;
+  display: block;
+  filter: saturate(1.1) contrast(1.05);
 }
 
-/* MESSAGE FORM */
+/* MESSAGE PANEL */
 .panel {
   background: #12141a;
   border-radius: 16px;
@@ -145,7 +163,7 @@ button:hover {
 
 /* MOBILE */
 @media (max-width: 600px) {
-  .card {
+  .now-top {
     flex-direction: column;
     text-align: center;
   }
@@ -166,23 +184,31 @@ button:hover {
     <h1>🎧 Prodigal Sun Radio</h1>
   </header>
 
-  <!-- NOW PLAYING (SINGLE SOURCE OF TRUTH) -->
+  <!-- NOW PLAYING -->
   <div class="card">
 
     <div class="live">LIVE</div>
 
-    <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+    <!-- TOP ROW -->
+    <div class="now-top">
+      <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
-    <div>
-      <div id="track">Loading now playing...</div>
-      <div class="sub">Live from PSR Studio</div>
-
-      <!-- CUSTOM AUDIO PLAYER (NO IFRAME) -->
-      <div class="neon-player">
-        <audio id="psr-audio" controls></audio>
+      <div class="meta">
+        <div id="track">Loading now playing...</div>
+        <div class="sub">Live from PSR Studio</div>
       </div>
-
     </div>
+
+    <!-- PLAYER FULL WIDTH -->
+    <div class="player-row">
+      <div class="neon-player">
+        <iframe
+          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff&f=0&i=0&p=0&s=0&alb=0&li=0&popup=0&plc=0&h=undefined&l=110&v=2"
+          allow="autoplay">
+        </iframe>
+      </div>
+    </div>
+
   </div>
 
   <!-- MESSAGE FORM -->
@@ -200,29 +226,7 @@ button:hover {
 
 <script>
 
-/* ======================
-   STREAM (CUSTOM PLAYER)
-====================== */
-
-const STREAM_URL = "https://listen.radioking.com/radio/443393/stream/497783";
-const audio = document.getElementById("psr-audio");
-
-audio.src = STREAM_URL;
-audio.volume = 0.85;
-
-/* attempt autoplay (browser may block) */
-window.addEventListener("load", async () => {
-  try {
-    await audio.play();
-  } catch (e) {
-    console.log("Autoplay blocked - user interaction required");
-  }
-});
-
-/* ======================
-   NOW PLAYING (ONLY SOURCE)
-====================== */
-
+/* NOW PLAYING */
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
 async function updateNowPlaying() {
@@ -248,11 +252,7 @@ async function updateNowPlaying() {
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
-
-/* ======================
-   FORM (FORMSPREE)
-====================== */
-
+/* FORMSPREE */
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
 async function sendMessage() {
@@ -274,7 +274,11 @@ async function sendMessage() {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ name, message, station: "PSR Live Hub" })
+      body: JSON.stringify({
+        name,
+        message,
+        station: "PSR Live Hub"
+      })
     });
 
     if (res.ok) {
