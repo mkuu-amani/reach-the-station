@@ -286,26 +286,31 @@ async function sendMessage() {
   status.innerText = "Sending...";
 
   try {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("message", message);
-    formData.append("station", "PSR Live Hub");
-
     const res = await fetch(ENDPOINT, {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        message: message,
+        station: "PSR Live Hub"
+      })
     });
+
+    const data = await res.json();
 
     if (res.ok) {
       status.innerText = "Message sent to HQ ✔";
       document.getElementById("name").value = "";
       document.getElementById("message").value = "";
     } else {
-      status.innerText = "Failed to send message";
+      status.innerText = data?.error || "Form submission failed";
     }
 
   } catch (err) {
-    status.innerText = "Error sending message";
+    status.innerText = "Network error sending message";
   }
 }
 
