@@ -19,7 +19,7 @@ body {
   width: 100%;
   max-width: 900px;
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 /* HEADER */
@@ -32,30 +32,42 @@ header h1 {
   margin: 0;
   font-size: 22px;
   font-weight: 600;
-  letter-spacing: 0.5px;
 }
 
-/* CARD STYLE */
+/* NOW PLAYING CARD */
 .card {
   background: #151820;
-  border-radius: 14px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 18px;
   display: flex;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  position: relative;
+}
+
+/* LIVE BADGE */
+.live {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: #ff3b3b;
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  letter-spacing: 1px;
 }
 
 /* COVER */
 #cover {
-  width: 120px;
-  height: 120px;
-  border-radius: 10px;
+  width: clamp(160px, 20vw, 220px);
+  height: clamp(160px, 20vw, 220px);
+  border-radius: 14px;
   object-fit: cover;
-  background: #222;
 }
 
-/* TRACK TEXT */
+/* TRACK */
 #track {
   font-size: 16px;
   line-height: 1.4;
@@ -64,14 +76,27 @@ header h1 {
 .sub {
   color: #aaa;
   font-size: 13px;
-  margin-top: 4px;
+  margin-top: 6px;
+}
+
+/* LISTEN BUTTON */
+.listen {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #1db954;
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 13px;
 }
 
 /* MESSAGE BOX */
 .panel {
   background: #12141a;
-  border-radius: 14px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 18px;
 }
 
 label {
@@ -85,7 +110,7 @@ input, textarea {
   width: 100%;
   padding: 12px;
   margin-top: 6px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #2a2f3a;
   background: #0d0f14;
   color: #fff;
@@ -107,7 +132,7 @@ button {
   border-radius: 10px;
   background: #1db954;
   color: #000;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -130,8 +155,8 @@ button:hover {
   }
 
   #cover {
-    width: 160px;
-    height: 160px;
+    width: 190px;
+    height: 190px;
   }
 }
 </style>
@@ -147,10 +172,18 @@ button:hover {
 
   <!-- NOW PLAYING -->
   <div class="card">
+    <div class="live">LIVE</div>
+
     <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+
     <div>
       <div id="track">Loading now playing...</div>
       <div class="sub">Live from PSR Studio</div>
+
+      <!-- CLEAN PLAYER LINK -->
+      <a class="listen" href="https://player.radioking.io/the-channel-x/" target="_blank">
+        ▶ Listen Live
+      </a>
     </div>
   </div>
 
@@ -203,15 +236,8 @@ updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
 /* ======================
-   SEND MESSAGE (HOOK)
+   SEND MESSAGE (FIXED FOR FORMSPREE)
 ====================== */
-
-/*
-Replace this with:
-- Formspree
-- Zapier webhook
-- Google Apps Script email sender
-*/
 
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
@@ -228,22 +254,26 @@ async function sendMessage() {
   status.innerText = "Sending...";
 
   try {
-    await fetch(ENDPOINT, {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("message", message);
+    formData.append("station", "PSR Live Hub");
+
+    const res = await fetch(ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        message,
-        station: "PSR Live Hub"
-      })
+      body: formData
     });
 
-    status.innerText = "Message sent to HQ ✔";
-    document.getElementById("name").value = "";
-    document.getElementById("message").value = "";
+    if (res.ok) {
+      status.innerText = "Message sent to HQ ✔";
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
+    } else {
+      status.innerText = "Failed to send message";
+    }
 
   } catch (err) {
-    status.innerText = "Failed to send message";
+    status.innerText = "Error sending message";
   }
 }
 
