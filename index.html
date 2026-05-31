@@ -7,7 +7,7 @@
 <style>
 
 /* =========================
-   BACKGROUND SLIDESHOW (NEW ONLY)
+   BACKGROUND SLIDESHOW (UNCHANGED)
 ========================= */
 
 body {
@@ -38,7 +38,7 @@ body {
   opacity: 1;
 }
 
-/* dark overlay for readability */
+/* dark overlay */
 .bg-overlay {
   position: fixed;
   inset: 0;
@@ -47,7 +47,7 @@ body {
 }
 
 /* =========================
-   EVERYTHING ELSE (UNCHANGED)
+   LAYOUT
 ========================= */
 
 .app {
@@ -66,10 +66,24 @@ header h1 {
   font-size: 22px;
 }
 
-.card {
+/* =========================
+   TIGHTER CARDS (FIX)
+========================= */
+
+.card,
+.panel {
   background: #151820;
   border-radius: 16px;
-  padding: 18px;
+  padding: 14px;              /* tighter than before */
+  height: fit-content;        /* lets box hug content */
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* =========================
+   NOW PLAYING CARD
+========================= */
+
+.card {
   display: flex;
   gap: 18px;
   align-items: flex-start;
@@ -120,6 +134,10 @@ header h1 {
   font-size: 13px;
 }
 
+/* =========================
+   PLAYER
+========================= */
+
 .neon-player {
   width: 100%;
   border-radius: 14px;
@@ -137,11 +155,9 @@ header h1 {
   background: #000;
 }
 
-.panel {
-  background: #12141a;
-  border-radius: 16px;
-  padding: 18px;
-}
+/* =========================
+   FORM
+========================= */
 
 input, textarea {
   width: 100%;
@@ -182,6 +198,10 @@ button:hover {
   color: #aaa;
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 600px) {
   .card {
     flex-direction: column;
@@ -203,10 +223,7 @@ button:hover {
 
 <body>
 
-<!-- =========================
-     BACKGROUND SLIDESHOW (ADD THIS)
-========================= -->
-
+<!-- BACKGROUND SLIDESHOW -->
 <div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4');"></div>
 <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507838153414-b4b713384a76');"></div>
 <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f');"></div>
@@ -256,10 +273,7 @@ button:hover {
 
 <script>
 
-/* =========================
-   SLIDESHOW SCRIPT (ADD THIS ONLY)
-========================= */
-
+/* SLIDESHOW */
 const slides = document.querySelectorAll(".bg-slide");
 let current = 0;
 
@@ -269,11 +283,7 @@ setInterval(() => {
   slides[current].classList.add("active");
 }, 6000);
 
-
-/* =========================
-   YOUR ORIGINAL JS (UNCHANGED)
-========================= */
-
+/* NOW PLAYING */
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
 async function updateNowPlaying() {
@@ -281,14 +291,11 @@ async function updateNowPlaying() {
     const res = await fetch(API, { cache: "no-store" });
     const data = await res.json();
 
-    const artist = data.artist || "Unknown Artist";
-    const title = data.title || "Unknown Title";
-    const cover = data.cover || "https://i.imgur.com/QPevqGi.png";
-
     document.getElementById("track").innerHTML =
-      "<b>" + artist + "</b><br>" + title;
+      "<b>" + data.artist + "</b><br>" + data.title;
 
-    document.getElementById("cover").src = cover;
+    document.getElementById("cover").src =
+      data.cover || "https://i.imgur.com/QPevqGi.png";
 
   } catch (e) {
     document.getElementById("track").innerText =
@@ -299,14 +306,15 @@ async function updateNowPlaying() {
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
+/* FORM */
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
 async function sendMessage() {
-  const name = document.getElementById("name").value.trim();
-  const message = document.getElementById("message").value.trim();
+  const name = document.getElementById("name");
+  const message = document.getElementById("message");
   const status = document.getElementById("status");
 
-  if (!name || !message) {
+  if (!name.value.trim() || !message.value.trim()) {
     status.innerText = "Please fill in all fields";
     return;
   }
@@ -321,19 +329,18 @@ async function sendMessage() {
         "Accept": "application/json"
       },
       body: JSON.stringify({
-        name,
-        message,
+        name: name.value.trim(),
+        message: message.value.trim(),
         station: "PSR Live Hub"
       })
     });
 
-    status.innerText = res.ok
-      ? "Message sent to HQ ✔"
-      : "Failed to send message";
-
     if (res.ok) {
-      document.getElementById("name").value = "";
-      document.getElementById("message").value = "";
+      status.innerText = "Message sent to HQ ✔";
+      name.value = "";
+      message.value = "";
+    } else {
+      status.innerText = "Failed to send message";
     }
 
   } catch (err) {
