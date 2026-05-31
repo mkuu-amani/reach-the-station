@@ -32,6 +32,18 @@ header h1 {
   font-size: 22px;
 }
 
+/* =========================
+   BLUE NEON CONTAINERS (ADDED)
+========================= */
+.card,
+.panel {
+  box-shadow:
+    0 0 12px rgba(0,229,255,0.18),
+    0 0 28px rgba(0,229,255,0.10),
+    0 10px 30px rgba(0,0,0,0.35);
+  border: 1px solid rgba(0,229,255,0.15);
+}
+
 /* NOW PLAYING CARD */
 .card {
   background: #151820;
@@ -40,23 +52,37 @@ header h1 {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   position: relative;
 }
 
-/* LIVE BADGE */
+/* LIVE BADGE (ENLARGED + PULSING) */
 .live {
   position: absolute;
   top: 10px;
   right: 12px;
   background: #ff3b3b;
   color: #fff;
-  font-size: 11px;
-  padding: 4px 8px;
+  font-size: 13px;
+  padding: 6px 12px;
   border-radius: 20px;
+  letter-spacing: 1px;
+
+  animation: livePulse 2.8s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(255,59,59,0.6);
 }
 
-/* COVER ART (ONLY ONE SOURCE) */
+@keyframes livePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+/* COVER ART */
 #cover {
   width: clamp(160px, 20vw, 220px);
   height: clamp(160px, 20vw, 220px);
@@ -65,7 +91,7 @@ header h1 {
   flex-shrink: 0;
 }
 
-/* RIGHT SIDE COLUMN (IMPORTANT FIX) */
+/* RIGHT SIDE */
 .info {
   flex: 1;
   min-width: 0;
@@ -85,40 +111,34 @@ header h1 {
   font-size: 13px;
 }
 
-/* =========================
-   FULL WIDTH NEON PLAYER FIX
-========================= */
-
+/* PLAYER */
 .neon-player {
   width: 100%;
   border-radius: 14px;
-  overflow: visible; /* IMPORTANT: prevents clipping */
-  position: relative;
+  overflow: visible;
 
   box-shadow:
     0 0 14px rgba(0,229,255,0.25),
     0 0 35px rgba(0,229,255,0.12);
 }
 
-/* iframe MUST fill container */
 .neon-player iframe {
   width: 100% !important;
   min-width: 100%;
-  height: 140px; /* KEY FIX: gives controls room */
+  height: 140px;
   border: 0;
   display: block;
-
   background: #000;
-  filter: none; /* avoids washed/hidden controls */
 }
 
-/* MESSAGE FORM */
+/* MESSAGE PANEL */
 .panel {
   background: #12141a;
   border-radius: 16px;
   padding: 18px;
 }
 
+/* FORM ELEMENTS */
 input, textarea {
   width: 100%;
   padding: 12px;
@@ -135,6 +155,7 @@ textarea {
   resize: vertical;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   margin-top: 12px;
@@ -192,13 +213,11 @@ button:hover {
 
     <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
-    <!-- RIGHT SIDE (FIXED LAYOUT) -->
     <div class="info">
 
       <div id="track">Loading now playing...</div>
       <div class="sub">Live from PSR Studio</div>
 
-      <!-- FULL WIDTH PLAYER -->
       <div class="neon-player">
         <iframe
           src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff&f=0&i=0&p=0&s=0&alb=0&li=0&popup=0&plc=0&h=undefined&l=110&v=2"
@@ -249,7 +268,6 @@ async function updateNowPlaying() {
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
-
 /* FORMSPREE */
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
@@ -278,11 +296,6 @@ async function sendMessage() {
     status.innerText = res.ok
       ? "Message sent to HQ ✔"
       : "Failed to send message";
-
-    if (res.ok) {
-      document.getElementById("name").value = "";
-      document.getElementById("message").value = "";
-    }
 
   } catch (err) {
     status.innerText = "Network error";
