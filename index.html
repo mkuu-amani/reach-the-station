@@ -5,6 +5,28 @@
 <title>PSR Live Hub</title>
 
 <style>
+  /* SLIDESHOW BACKGROUND */
+.bg-slide {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2.5s ease-in-out;
+  z-index: -3;
+}
+
+.bg-slide.active {
+  opacity: 1;
+}
+
+/* DARK OVERLAY FOR READABILITY */
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 6, 10, 0.75);
+  z-index: -2;
+}
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
@@ -174,6 +196,14 @@ button:hover {
 </head>
 
 <body>
+  <!-- BACKGROUND SLIDESHOW -->
+<div class="bg-slide active" style="background-image:url('IMAGE_1_URL');"></div>
+<div class="bg-slide" style="background-image:url('IMAGE_2_URL');"></div>
+<div class="bg-slide" style="background-image:url('IMAGE_3_URL');"></div>
+<div class="bg-slide" style="background-image:url('IMAGE_4_URL');"></div>
+<div class="bg-slide" style="background-image:url('IMAGE_5_URL');"></div>
+
+<div class="bg-overlay"></div>
 
 <div class="app">
 
@@ -289,6 +319,14 @@ async function sendMessage() {
     status.innerText = "Network error";
   }
 }
+  const slides = document.querySelectorAll(".bg-slide");
+let current = 0;
+
+setInterval(() => {
+  slides[current].classList.remove("active");
+  current = (current + 1) % slides.length;
+  slides[current].classList.add("active");
+}, 6000);
 
 </script>
 
