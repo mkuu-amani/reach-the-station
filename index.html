@@ -55,7 +55,7 @@ header h1 {
   border-radius: 20px;
 }
 
-/* COVER ART (ONLY HERE) */
+/* ONLY COVER ART HERE */
 #cover {
   width: clamp(160px, 20vw, 220px);
   height: clamp(160px, 20vw, 220px);
@@ -75,44 +75,23 @@ header h1 {
   margin-top: 6px;
 }
 
-/* =========================
-   FIXED NEON PLAYER (CLICK SAFE)
-========================= */
-
+/* AUDIO PLAYER (MINIMAL / NO VISUAL CLUTTER) */
 .neon-player {
   margin-top: 14px;
   border-radius: 14px;
   overflow: hidden;
-  position: relative;
 
   box-shadow:
     0 0 12px rgba(0,229,255,0.25),
     0 0 30px rgba(0,229,255,0.12);
-
-  z-index: 1;
 }
 
-/* glow overlay — NON-BLOCKING */
-.neon-player::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none; /* 🔑 FIX: allows clicking iframe */
-  box-shadow: inset 0 0 20px rgba(0,229,255,0.15);
-  animation: pulse 4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* iframe must be fully interactive */
 .neon-player iframe {
   width: 100%;
-  height: 120px; /* important: ensures controls are visible */
+  height: 110px;
   border: 0;
   display: block;
+  filter: saturate(1.1) contrast(1.05);
 }
 
 /* MESSAGE FORM */
@@ -130,6 +109,7 @@ input, textarea {
   border: 1px solid #2a2f3a;
   background: #0d0f14;
   color: #fff;
+  box-sizing: border-box;
 }
 
 textarea {
@@ -183,7 +163,7 @@ button:hover {
     <h1>🎧 Prodigal Sun Radio</h1>
   </header>
 
-  <!-- NOW PLAYING -->
+  <!-- NOW PLAYING (SINGLE SOURCE OF TRUTH) -->
   <div class="card">
 
     <div class="live">LIVE</div>
@@ -194,10 +174,11 @@ button:hover {
       <div id="track">Loading now playing...</div>
       <div class="sub">Live from PSR Studio</div>
 
-      <!-- PLAYER (FIXED - CLICKABLE) -->
+      <!-- AUDIO PLAYER ONLY -->
       <div class="neon-player">
         <iframe
-          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff&f=h&i=0&p=1&s=0&alb=0&li=0&popup=0&plc=0&h=undefined&l=120&v=2">
+          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff&f=0&i=0&p=0&s=0&alb=0&li=0&popup=0&plc=0&h=undefined&l=110&v=2"
+          allow="autoplay">
         </iframe>
       </div>
 
@@ -219,7 +200,10 @@ button:hover {
 
 <script>
 
-/* NOW PLAYING */
+/* ======================
+   NOW PLAYING (ONLY SOURCE)
+====================== */
+
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
 async function updateNowPlaying() {
@@ -245,7 +229,11 @@ async function updateNowPlaying() {
 updateNowPlaying();
 setInterval(updateNowPlaying, 15000);
 
-/* FORMSPREE */
+
+/* ======================
+   FORM (FORMSPREE)
+====================== */
+
 const ENDPOINT = "https://formspree.io/f/mykvabzl";
 
 async function sendMessage() {
@@ -267,7 +255,11 @@ async function sendMessage() {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({ name, message, station: "PSR Live Hub" })
+      body: JSON.stringify({
+        name,
+        message,
+        station: "PSR Live Hub"
+      })
     });
 
     if (res.ok) {
