@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PSR Live Hub - Broadcast TV Style</title>
+<title>PSR Broadcast Console</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
@@ -20,7 +20,7 @@ body{
 }
 
 /* =========================
-   BACKGROUND (BRIGHT TV LAYER)
+   BACKGROUND (STRONG BLUE OVERLAY)
 ========================= */
 
 #bgVideo{
@@ -38,14 +38,14 @@ body{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(0,180,255,0.18), transparent 45%),
-    radial-gradient(circle at 80% 30%, rgba(255,0,150,0.12), transparent 50%),
-    rgba(245,247,251,0.65);
+    radial-gradient(circle at 20% 20%, rgba(0,110,255,0.35), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,170,255,0.30), transparent 45%),
+    linear-gradient(180deg, rgba(0,90,255,0.25), rgba(0,0,40,0.55));
   z-index:-4;
 }
 
 /* =========================
-   TOP BAR (LG CHANNEL STYLE)
+   TOP BAR
 ========================= */
 
 .topbar{
@@ -81,19 +81,26 @@ body{
 }
 
 /* =========================
-   MAIN WRAPPER
+   APP LAYOUT (BOTTOM ALIGNED)
 ========================= */
 
 .app{
   max-width:1200px;
-  margin:80px auto;
+  margin:0 auto;
   padding:20px;
+  height:100vh;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end; /* 👈 pushes panels to bottom */
+  gap:20px;
 }
 
-/* HEADER */
+/* HEADER stays above panels but lower on screen */
 .header{
   text-align:center;
-  margin-bottom:18px;
+  margin-top:auto;
+  margin-bottom:10px;
 }
 
 .header h1{
@@ -101,7 +108,7 @@ body{
   font-size:56px;
   font-weight:800;
   letter-spacing:2px;
-  background:linear-gradient(90deg,#0066ff,#ff00cc,#00e5ff);
+  background:linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
@@ -114,7 +121,7 @@ body{
 }
 
 /* =========================
-   MAIN GRID (TV STYLE PANELS)
+   CONSOLE GRID
 ========================= */
 
 .console{
@@ -133,7 +140,7 @@ body{
 }
 
 /* =========================
-   NOW PLAYING (BRIGHT CARD)
+   NOW PLAYING
 ========================= */
 
 .now-playing{
@@ -153,7 +160,6 @@ body{
 #track{
   font-size:18px;
   font-weight:700;
-  color:#111;
 }
 
 .sub{
@@ -163,7 +169,7 @@ body{
 }
 
 /* =========================
-   VU METERS (BRIGHT TV STYLE)
+   VU METERS
 ========================= */
 
 .meters{
@@ -176,7 +182,7 @@ body{
 
 .meters span{
   width:4px;
-  background:linear-gradient(to top,#0066ff,#ff00cc,#00e5ff);
+  background:linear-gradient(to top,#0066ff,#00c2ff,#ff00cc);
   animation:vu 1s infinite ease-in-out;
   border-radius:2px;
 }
@@ -198,7 +204,7 @@ body{
 }
 
 /* =========================
-   MESSAGE PANEL (CLEAN UI)
+   FORM
 ========================= */
 
 input,textarea{
@@ -222,25 +228,12 @@ button{
   margin-top:12px;
   width:100%;
   padding:13px;
-  background:linear-gradient(90deg,#0066ff,#ff00cc);
+  background:linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
   border:none;
   border-radius:10px;
   font-weight:800;
   cursor:pointer;
   color:#fff;
-}
-
-/* =========================
-   INFO TILE
-========================= */
-
-.info-tile{
-  margin-top:14px;
-  padding:12px;
-  border-radius:10px;
-  background:rgba(0,0,0,0.03);
-  font-size:12px;
-  color:#555;
 }
 
 /* =========================
@@ -282,7 +275,7 @@ button{
 
   <div class="header">
     <h1>PRODIGAL SUN RADIO</h1>
-    <h2>LG CHANNEL STYLE BROADCAST HUB</h2>
+    <h2>LIVE BROADCAST CONSOLE</h2>
   </div>
 
   <div class="console">
@@ -311,10 +304,6 @@ button{
         frameborder="0"></iframe>
       </div>
 
-      <div class="info-tile">
-        LIVE BROADCAST • HOUSE • AFRO • DNB • REGGAE • GLOBAL SESSIONS
-      </div>
-
     </div>
 
     <!-- MESSAGE -->
@@ -325,7 +314,7 @@ button{
       <input id="name" placeholder="Your Name">
       <textarea id="message" placeholder="Your Message"></textarea>
 
-      <button onclick="sendMessage()">SEND TO STUDIO</button>
+      <button onclick="sendMessage()">SEND</button>
 
       <div id="status"></div>
 
@@ -354,7 +343,7 @@ async function update(){
 update();
 setInterval(update,15000);
 
-/* MESSAGE */
+/* MESSAGE + CLEAR FIELDS */
 async function sendMessage(){
   const name=document.getElementById("name");
   const message=document.getElementById("message");
@@ -368,7 +357,11 @@ async function sendMessage(){
     body:JSON.stringify({name:name.value,message:message.value})
   });
 
-  status.innerText="Message Delivered ✔";
+  status.innerText="Message Sent ✔";
+
+  // 👇 CLEAR FIELDS AFTER SEND
+  name.value = "";
+  message.value = "";
 }
 
 </script>
