@@ -20,7 +20,7 @@ body{
 }
 
 /* =========================
-   BACKGROUND (STRONG BLUE OVERLAY)
+   BACKGROUND VIDEO (SWITCHING)
 ========================= */
 
 #bgVideo{
@@ -34,6 +34,7 @@ body{
   transform:scale(1.05);
 }
 
+/* Blue broadcast overlay */
 .overlay{
   position:fixed;
   inset:0;
@@ -92,11 +93,11 @@ body{
 
   display:flex;
   flex-direction:column;
-  justify-content:flex-end; /* 👈 pushes panels to bottom */
+  justify-content:flex-end;
   gap:20px;
 }
 
-/* HEADER stays above panels but lower on screen */
+/* HEADER */
 .header{
   text-align:center;
   margin-top:auto;
@@ -260,9 +261,9 @@ button{
 
 <body>
 
+<!-- BACKGROUND VIDEO (SWITCHING SOURCE) -->
 <video id="bgVideo" autoplay muted loop playsinline>
-  <source src="https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4">
-  <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
+  <source id="bgSource" src="https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4">
 </video>
 
 <div class="overlay"></div>
@@ -327,6 +328,25 @@ button{
 
 <script>
 
+/* =========================
+   BACKGROUND VIDEO ROTATION (OPTION 2)
+========================= */
+
+const videos = [
+  "https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4",
+  "https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4"
+];
+
+let i = 0;
+
+setInterval(() => {
+  i = (i + 1) % videos.length;
+  document.getElementById("bgSource").src = videos[i];
+  document.getElementById("bgVideo").load();
+  document.getElementById("bgVideo").play();
+}, 30000);
+
+
 /* NOW PLAYING */
 const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
@@ -344,6 +364,7 @@ async function update(){
 update();
 setInterval(update,15000);
 
+
 /* MESSAGE + CLEAR FIELDS */
 async function sendMessage(){
   const name=document.getElementById("name");
@@ -360,7 +381,7 @@ async function sendMessage(){
 
   status.innerText="Message Sent ✔";
 
-  // 👇 CLEAR FIELDS AFTER SEND
+  // CLEAR FIELDS
   name.value = "";
   message.value = "";
 }
