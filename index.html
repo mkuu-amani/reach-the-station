@@ -51,7 +51,7 @@ body{
 ========================= */
 
 .topbar{
-  position:fixed;
+  position:sticky;
   top:0;
   width:100%;
   padding:10px 18px;
@@ -83,14 +83,14 @@ body{
 }
 
 /* =========================
-   LAYOUT (BOTTOM DOCKED)
+   LAYOUT (FIXED MOBILE SAFE)
 ========================= */
 
 .app{
   max-width:1200px;
   margin:0 auto;
-  padding:20px;
-  height:100vh;
+  padding:70px 20px 20px;
+  min-height:100dvh;
 
   display:flex;
   flex-direction:column;
@@ -183,7 +183,7 @@ body{
 }
 
 /* =========================
-   NOW PLAYING PANEL STYLES
+   NOW PLAYING PANEL
 ========================= */
 
 #cover{
@@ -242,7 +242,7 @@ body{
 }
 
 /* =========================
-   MESSAGE PANEL VIDEO VERSION
+   MESSAGE PANEL
 ========================= */
 
 .message-panel{
@@ -253,7 +253,6 @@ body{
   box-shadow:0 0 25px rgba(0,120,255,0.12);
 }
 
-/* make message inputs readable */
 .message-panel input,
 .message-panel textarea{
   width:100%;
@@ -266,7 +265,6 @@ body{
   font-size:13px;
 }
 
-/* headings readable */
 .message-panel h3{
   color:#fff;
 }
@@ -293,22 +291,34 @@ button{
 }
 
 /* =========================
-   MOBILE
+   MOBILE FIX (IMPORTANT)
 ========================= */
 
 @media(max-width:900px){
+
+  .app{
+    padding-top:85px;
+    justify-content:flex-start;
+  }
+
   .console{
     grid-template-columns:1fr;
   }
 
   .header h1{
     font-size:38px;
+    line-height:1;
+  }
+
+  .header h2{
+    margin-bottom:15px;
   }
 
   #cover{
     width:110px;
     height:110px;
   }
+
 }
 
 </style>
@@ -316,7 +326,7 @@ button{
 
 <body>
 
-<!-- MAIN BACKGROUND -->
+<!-- BACKGROUND VIDEO -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
@@ -372,7 +382,7 @@ button{
       </div>
     </div>
 
-    <!-- MESSAGE PANEL (VIDEO BACKGROUND) -->
+    <!-- MESSAGE PANEL -->
     <div class="panel video-panel message-panel">
 
       <video class="panel-video" autoplay muted loop playsinline>
@@ -402,7 +412,6 @@ button{
 
 <script>
 
-/* NOW PLAYING */
 const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
 async function update(){
@@ -419,7 +428,6 @@ async function update(){
 update();
 setInterval(update,15000);
 
-/* MESSAGE */
 async function sendMessage(){
   const name=document.getElementById("name");
   const message=document.getElementById("message");
@@ -435,8 +443,8 @@ async function sendMessage(){
 
   status.innerText="Message Sent ✔";
 
-  name.value = "";
-  message.value = "";
+  name.value="";
+  message.value="";
 }
 
 </script>
