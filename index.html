@@ -20,7 +20,7 @@ body{
 }
 
 /* =========================
-   BACKGROUND VIDEO (SWITCHING)
+   BACKGROUND VIDEO (SINGLE)
 ========================= */
 
 #bgVideo{
@@ -30,18 +30,22 @@ body{
   height:100%;
   object-fit:cover;
   z-index:-5;
-  filter:brightness(0.85) saturate(1.4) contrast(1.1);
+  filter:brightness(0.9) saturate(1.4) contrast(1.1);
   transform:scale(1.05);
 }
 
-/* Blue broadcast overlay */
+/* =========================
+   STRONG BLUE BROADCAST OVERLAY
+========================= */
+
 .overlay{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(0,110,255,0.35), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(0,170,255,0.30), transparent 45%),
-    linear-gradient(180deg, rgba(0,90,255,0.25), rgba(0,0,40,0.55));
+    radial-gradient(circle at 20% 20%, rgba(0,120,255,0.40), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,180,255,0.30), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(0,80,255,0.25), transparent 55%),
+    linear-gradient(180deg, rgba(0,90,255,0.20), rgba(0,0,40,0.55));
   z-index:-4;
 }
 
@@ -82,7 +86,7 @@ body{
 }
 
 /* =========================
-   APP LAYOUT (BOTTOM ALIGNED)
+   APP LAYOUT (BOTTOM DOCKED)
 ========================= */
 
 .app{
@@ -94,14 +98,13 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
-  gap:20px;
+  gap:18px;
 }
 
-/* HEADER */
+/* HEADER (TV STYLE) */
 .header{
   text-align:center;
   margin-top:auto;
-  margin-bottom:10px;
 }
 
 .header h1{
@@ -133,7 +136,7 @@ body{
 
 /* PANELS */
 .panel{
-  background:rgba(255,255,255,0.92);
+  background:rgba(255,255,255,0.94);
   border:1px solid rgba(0,0,0,0.06);
   border-radius:14px;
   padding:18px;
@@ -170,7 +173,7 @@ body{
 }
 
 /* =========================
-   VU METERS
+   VU METERS (TV STYLE)
 ========================= */
 
 .meters{
@@ -261,9 +264,9 @@ button{
 
 <body>
 
-<!-- BACKGROUND VIDEO (SWITCHING SOURCE) -->
+<!-- BACKGROUND VIDEO (FINAL SINGLE SOURCE) -->
 <video id="bgVideo" autoplay muted loop playsinline>
-  <source id="bgSource" src="https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4">
+  <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
 
 <div class="overlay"></div>
@@ -328,25 +331,6 @@ button{
 
 <script>
 
-/* =========================
-   BACKGROUND VIDEO ROTATION (OPTION 2)
-========================= */
-
-const videos = [
-  "https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4",
-  "https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4"
-];
-
-let i = 0;
-
-setInterval(() => {
-  i = (i + 1) % videos.length;
-  document.getElementById("bgSource").src = videos[i];
-  document.getElementById("bgVideo").load();
-  document.getElementById("bgVideo").play();
-}, 30000);
-
-
 /* NOW PLAYING */
 const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
@@ -363,7 +347,6 @@ async function update(){
 
 update();
 setInterval(update,15000);
-
 
 /* MESSAGE + CLEAR FIELDS */
 async function sendMessage(){
