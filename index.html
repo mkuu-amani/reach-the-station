@@ -20,7 +20,7 @@ body{
 }
 
 /* =========================
-   BACKGROUND VIDEO
+   MAIN BACKGROUND VIDEO
 ========================= */
 
 #bgVideo{
@@ -34,7 +34,7 @@ body{
   transform:scale(1.05);
 }
 
-/* BLUE BROADCAST OVERLAY */
+/* STRONG BLUE BROADCAST OVERLAY */
 .overlay{
   position:fixed;
   inset:0;
@@ -132,7 +132,7 @@ body{
 }
 
 /* =========================
-   PANELS
+   BASE PANEL
 ========================= */
 
 .panel{
@@ -144,17 +144,18 @@ body{
 }
 
 /* =========================
-   NOW PLAYING (VIDEO CARD)
+   VIDEO PANEL CORE
 ========================= */
 
 .video-panel{
   position:relative;
   overflow:hidden;
+  min-height:360px;
   border:1px solid rgba(0,180,255,0.25);
   box-shadow:0 0 25px rgba(0,120,255,0.15);
 }
 
-/* inner video background */
+/* shared video layer */
 .panel-video{
   position:absolute;
   inset:0;
@@ -162,15 +163,14 @@ body{
   height:100%;
   object-fit:cover;
   z-index:0;
-  filter:brightness(0.65) saturate(1.5) contrast(1.2);
 }
 
-/* glass overlay */
+/* overlay layer */
 .panel-overlay{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55)),
+    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
     radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
   z-index:1;
 }
@@ -179,14 +179,12 @@ body{
 .panel-content{
   position:relative;
   z-index:2;
+  padding:18px;
 }
 
-/* now playing layout */
-.now-playing{
-  display:flex;
-  gap:16px;
-  align-items:center;
-}
+/* =========================
+   NOW PLAYING PANEL STYLES
+========================= */
 
 #cover{
   width:140px;
@@ -206,6 +204,12 @@ body{
   font-size:12px;
   color:rgba(255,255,255,0.75);
   margin-top:4px;
+}
+
+.now-playing{
+  display:flex;
+  gap:16px;
+  align-items:center;
 }
 
 /* VU METERS */
@@ -238,25 +242,43 @@ body{
 }
 
 /* =========================
-   FORM
+   MESSAGE PANEL VIDEO VERSION
 ========================= */
 
-input,textarea{
+.message-panel{
+  position:relative;
+  overflow:hidden;
+  min-height:360px;
+  border:1px solid rgba(0,180,255,0.25);
+  box-shadow:0 0 25px rgba(0,120,255,0.12);
+}
+
+/* make message inputs readable */
+.message-panel input,
+.message-panel textarea{
   width:100%;
   padding:12px;
   margin-top:10px;
   border-radius:10px;
   border:1px solid rgba(0,0,0,0.1);
-  background:#fff;
-  color:#111;
-  outline:none;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(6px);
   font-size:13px;
 }
 
-input:focus,textarea:focus{
-  border-color:#0066ff;
-  box-shadow:0 0 10px rgba(0,102,255,0.15);
+/* headings readable */
+.message-panel h3{
+  color:#fff;
 }
+
+#status{
+  color:#fff;
+  margin-top:10px;
+}
+
+/* =========================
+   BUTTON
+========================= */
 
 button{
   margin-top:12px;
@@ -294,7 +316,7 @@ button{
 
 <body>
 
-<!-- BACKGROUND VIDEO -->
+<!-- MAIN BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
@@ -315,7 +337,7 @@ button{
 
   <div class="console">
 
-    <!-- NOW PLAYING (VIDEO PANEL) -->
+    <!-- NOW PLAYING -->
     <div class="panel video-panel">
 
       <video class="panel-video" autoplay muted loop playsinline>
@@ -350,17 +372,27 @@ button{
       </div>
     </div>
 
-    <!-- MESSAGE -->
-    <div class="panel">
+    <!-- MESSAGE PANEL (VIDEO BACKGROUND) -->
+    <div class="panel video-panel message-panel">
 
-      <h3>Send Message to Studio</h3>
+      <video class="panel-video" autoplay muted loop playsinline>
+        <source src="https://video.wixstatic.com/video/4657a4_036fa46ce6634f1799f8c0762f55c578/1080p/mp4/file.mp4">
+      </video>
 
-      <input id="name" placeholder="Your Name">
-      <textarea id="message" placeholder="Your Message"></textarea>
+      <div class="panel-overlay"></div>
 
-      <button onclick="sendMessage()">SEND</button>
+      <div class="panel-content">
 
-      <div id="status"></div>
+        <h3>Send Message to Studio</h3>
+
+        <input id="name" placeholder="Your Name">
+        <textarea id="message" placeholder="Your Message"></textarea>
+
+        <button onclick="sendMessage()">SEND</button>
+
+        <div id="status"></div>
+
+      </div>
 
     </div>
 
@@ -387,7 +419,7 @@ async function update(){
 update();
 setInterval(update,15000);
 
-/* MESSAGE + CLEAR */
+/* MESSAGE */
 async function sendMessage(){
   const name=document.getElementById("name");
   const message=document.getElementById("message");
