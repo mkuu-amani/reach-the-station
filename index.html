@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PSR Live Hub - DJ Deck</title>
+<title>PSR Broadcast Console</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
@@ -14,13 +14,13 @@
 body{
   margin:0;
   font-family:Inter,system-ui,Arial;
+  background:#05070b;
   color:#fff;
   overflow-x:hidden;
-  background:#05060a;
 }
 
 /* =========================
-   BACKGROUND
+   BACKGROUND (SUBTLE STUDIO FEEL)
 ========================= */
 
 #bgVideo{
@@ -30,243 +30,231 @@ body{
   height:100%;
   object-fit:cover;
   z-index:-5;
-  filter:brightness(0.45) contrast(1.25) saturate(1.5) hue-rotate(-8deg);
-  transform:scale(1.08);
+  filter:brightness(0.35) contrast(1.2) saturate(1.1);
+  transform:scale(1.05);
 }
 
 .overlay{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(0,229,255,0.35), transparent 45%),
-    radial-gradient(circle at 85% 25%, rgba(255,0,200,0.28), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(140,0,255,0.25), transparent 50%),
-    rgba(5,6,10,0.65);
+    radial-gradient(circle at 30% 20%, rgba(0,180,255,0.12), transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(255,0,120,0.08), transparent 45%),
+    rgba(5,7,11,0.75);
   z-index:-4;
 }
 
 /* =========================
-   TICKER
+   TOP BAR (BROADCAST STYLE)
 ========================= */
 
-.ticker{
+.topbar{
   position:fixed;
   top:0;
   width:100%;
-  overflow:hidden;
-  background:rgba(0,0,0,0.55);
-  border-bottom:1px solid rgba(0,229,255,0.25);
+  padding:10px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,0.6);
+  border-bottom:1px solid rgba(255,255,255,0.06);
   backdrop-filter:blur(10px);
   z-index:10;
-}
-
-.ticker span{
-  display:inline-block;
-  white-space:nowrap;
-  padding:12px 0;
-  animation:scroll 18s linear infinite;
   font-size:12px;
-  letter-spacing:3px;
-  color:#00e5ff;
+  letter-spacing:2px;
+  color:#9fb3c8;
 }
 
-@keyframes scroll{
-  from{transform:translateX(100%)}
-  to{transform:translateX(-100%)}
+.live-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#ff2b2b;
+  display:inline-block;
+  margin-right:8px;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.2}
 }
 
 /* =========================
-   LAYOUT
+   MAIN LAYOUT
 ========================= */
 
 .app{
   max-width:1200px;
-  margin:90px auto 60px;
+  margin:80px auto;
   padding:20px;
 }
 
-.hero{
+/* HEADER */
+.header{
   text-align:center;
-  padding:30px 20px 10px;
+  margin-bottom:20px;
 }
 
-.hero h1{
-  font-size:64px;
+.header h1{
   margin:0;
-  background:linear-gradient(90deg,#00e5ff,#ff00cc,#8a2be2);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-size:52px;
+  letter-spacing:3px;
+  font-weight:800;
+  color:#eaf2ff;
 }
 
-.hero h2{
-  color:#9aa0ff;
-  margin-top:10px;
+.header h2{
+  margin-top:8px;
+  font-size:14px;
+  letter-spacing:3px;
+  color:#7fa3c7;
 }
 
 /* =========================
-   DJ DECK SECTION
+   CONSOLE GRID
 ========================= */
 
-.dj-stage{
+.console{
   display:grid;
-  grid-template-columns: 1fr 320px 1fr;
+  grid-template-columns: 1.2fr 1fr;
   gap:20px;
-  align-items:center;
-  margin-top:20px;
 }
 
-/* deck panels */
-.deck{
-  background:linear-gradient(145deg,rgba(20,22,30,0.75),rgba(10,12,18,0.55));
-  border:1px solid rgba(0,229,255,0.18);
-  border-radius:18px;
-  padding:20px;
-  position:relative;
-  overflow:hidden;
-  min-height:260px;
-}
-
-/* glowing border */
-.deck::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  background:linear-gradient(120deg,#00e5ff,#ff00cc,#8a2be2);
-  opacity:0.2;
-  filter:blur(20px);
-}
-
-/* center console */
-.mixer{
-  background:rgba(10,12,18,0.85);
-  border:1px solid rgba(0,229,255,0.25);
-  border-radius:20px;
+/* PANELS */
+.panel{
+  background:rgba(15,18,24,0.85);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
   padding:18px;
-  text-align:center;
-  position:relative;
-  box-shadow:0 0 30px rgba(0,229,255,0.1);
-}
-
-/* spinning hub */
-.spin-disc{
-  width:90px;
-  height:90px;
-  margin:10px auto;
-  border-radius:50%;
-  background:conic-gradient(#00e5ff,#ff00cc,#8a2be2,#00e5ff);
-  animation:spin 3s linear infinite;
-  box-shadow:0 0 25px rgba(0,229,255,0.3);
-}
-
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
-
-/* crossfader */
-.fader{
-  width:100%;
-  margin-top:15px;
-}
-
-input[type=range]{
-  width:100%;
-}
-
-/* deck labels */
-.deck h3{
-  margin:0 0 10px;
-  color:#00e5ff;
-  letter-spacing:2px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 /* =========================
-   NOW PLAYING AREA
+   NOW PLAYING MODULE (BBC STYLE)
 ========================= */
 
 .now-playing{
-  margin-top:20px;
   display:flex;
-  gap:20px;
+  gap:18px;
   align-items:center;
 }
 
-/* spinning cover */
 #cover{
-  width:160px;
-  height:160px;
-  border-radius:50%;
+  width:140px;
+  height:140px;
+  border-radius:8px;
   object-fit:cover;
-  animation:spin 6s linear infinite;
-  box-shadow:0 0 30px rgba(0,229,255,0.25);
+  border:1px solid rgba(255,255,255,0.1);
 }
 
-/* text */
+.track-info{
+  flex:1;
+}
+
 #track{
-  font-size:20px;
+  font-size:18px;
   font-weight:600;
+  color:#eaf2ff;
 }
 
 .sub{
-  color:#b3b3ff;
+  font-size:12px;
+  color:#8aa6c1;
+  margin-top:4px;
 }
 
 /* =========================
-   WAVEFORM
+   VU METERS (BOILER ROOM FEEL)
 ========================= */
 
-.wave{
+.meters{
   display:flex;
-  gap:4px;
-  height:30px;
+  gap:3px;
+  margin-top:14px;
+  height:34px;
   align-items:flex-end;
-  margin-top:10px;
 }
 
-.wave div{
-  width:5px;
-  background:linear-gradient(180deg,#00e5ff,#ff00cc);
-  animation:wave 1s infinite ease-in-out;
-  border-radius:3px;
+.meters span{
+  width:4px;
+  background:linear-gradient(to top,#00c2ff,#ff2e88);
+  animation:vu 1s infinite ease-in-out;
+  border-radius:2px;
 }
 
-@keyframes wave{
-  0%,100%{height:5px}
-  50%{height:30px}
+.meters span:nth-child(2){animation-delay:.1s}
+.meters span:nth-child(3){animation-delay:.2s}
+.meters span:nth-child(4){animation-delay:.3s}
+.meters span:nth-child(5){animation-delay:.4s}
+.meters span:nth-child(6){animation-delay:.2s}
+.meters span:nth-child(7){animation-delay:.1s}
+
+@keyframes vu{
+  0%,100%{height:6px;opacity:0.4}
+  50%{height:34px;opacity:1}
 }
 
 /* =========================
-   MESSAGE PANEL
+   STREAM MODULE
 ========================= */
 
-.panel{
-  margin-top:20px;
-  background:rgba(20,22,30,0.6);
-  border-radius:18px;
-  padding:20px;
-  border:1px solid rgba(0,229,255,0.15);
+.stream{
+  margin-top:14px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
 }
+
+/* =========================
+   MESSAGE DESK (PRODUCTION STYLE)
+========================= */
 
 input,textarea{
   width:100%;
   padding:12px;
   margin-top:10px;
-  border-radius:10px;
-  border:1px solid rgba(0,229,255,0.2);
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.08);
   background:rgba(0,0,0,0.35);
   color:#fff;
+  outline:none;
+  font-size:13px;
+}
+
+input:focus,textarea:focus{
+  border-color:#4cc9ff;
+  box-shadow:0 0 10px rgba(76,201,255,0.2);
 }
 
 button{
   margin-top:12px;
   width:100%;
-  padding:14px;
-  background:linear-gradient(90deg,#00e5ff,#ff00cc);
-  border:none;
-  border-radius:12px;
-  font-weight:800;
-  cursor:pointer;
+  padding:12px;
+  background:#eaf2ff;
   color:#000;
+  border:none;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* =========================
+   RIGHT CONTROL PANEL
+========================= */
+
+.control-grid{
+  display:grid;
+  gap:14px;
+}
+
+.small-box{
+  padding:14px;
+  border-radius:12px;
+  background:rgba(0,0,0,0.25);
+  border:1px solid rgba(255,255,255,0.05);
+  font-size:12px;
+  color:#9fb3c8;
 }
 
 /* =========================
@@ -274,17 +262,17 @@ button{
 ========================= */
 
 @media(max-width:900px){
-  .dj-stage{
+  .console{
     grid-template-columns:1fr;
   }
 
-  .spin-disc{
-    display:none;
+  .header h1{
+    font-size:36px;
   }
 
   #cover{
-    width:120px;
-    height:120px;
+    width:110px;
+    height:110px;
   }
 }
 
@@ -299,66 +287,67 @@ button{
 
 <div class="overlay"></div>
 
-<div class="ticker">
-  <span>PSR LIVE • HOUSE • AFRO HOUSE • DNB • REGGAE • DUBSTEP • GLOBAL DJ SESSIONS • NEW MUSIC DAILY • </span>
+<div class="topbar">
+  <div><span class="live-dot"></span>PSR BROADCAST LIVE</div>
+  <div>PRODIGALSUNRADIO.COM</div>
 </div>
 
 <div class="app">
 
-  <div class="hero">
-    <h1>Prodigal Sun Radio</h1>
-    <h2>DJ LIVE DECK SYSTEM</h2>
+  <div class="header">
+    <h1>PRODIGAL SUN RADIO</h1>
+    <h2>BROADCAST CONSOLE</h2>
   </div>
 
-  <!-- DJ STAGE -->
-  <div class="dj-stage">
+  <div class="console">
 
-    <!-- LEFT DECK -->
-    <div class="deck">
-      <h3>DECK A</h3>
-      <div class="sub">Live Stream Input</div>
-      <div class="wave">
-        <div></div><div></div><div></div><div></div><div></div>
-      </div>
-    </div>
-
-    <!-- MIXER -->
-    <div class="mixer">
-      <div>NOW SPINNING</div>
-      <div class="spin-disc"></div>
-      <div class="fader">
-        <input type="range" min="0" max="100" value="50">
-      </div>
-    </div>
-
-    <!-- RIGHT DECK -->
-    <div class="deck">
-      <h3>DECK B</h3>
+    <!-- LEFT: NOW PLAYING -->
+    <div class="panel">
 
       <div class="now-playing">
+
         <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
-        <div>
+        <div class="track-info">
           <div id="track">Loading...</div>
-          <div class="sub">PSR Live Studio</div>
+          <div class="sub">Live Studio Feed</div>
 
-          <div class="wave">
-            <div></div><div></div><div></div><div></div><div></div>
+          <div class="meters">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
           </div>
         </div>
+
+      </div>
+
+      <div class="stream">
+        <iframe width="100%" height="140"
+        src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300c2ff"
+        frameborder="0"></iframe>
       </div>
 
     </div>
 
-  </div>
+    <!-- RIGHT: CONTROL / MESSAGE DESK -->
+    <div class="panel">
 
-  <!-- MESSAGE -->
-  <div class="panel">
-    <h3>Send Message to HQ</h3>
-    <input id="name" placeholder="Name">
-    <textarea id="message" placeholder="Message"></textarea>
-    <button onclick="sendMessage()">Send</button>
-    <div id="status"></div>
+      <div class="control-grid">
+
+        <div class="small-box">
+          <b>LIVE STATUS</b><br>
+          Studio 1 • Auto DJ • Active Stream
+        </div>
+
+        <div>
+          <input id="name" placeholder="Listener Name">
+          <textarea id="message" placeholder="Send message to studio"></textarea>
+          <button onclick="sendMessage()">TRANSMIT</button>
+          <div id="status"></div>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 
 </div>
@@ -382,13 +371,13 @@ async function update(){
 update();
 setInterval(update,15000);
 
-/* FORM */
+/* MESSAGE */
 async function sendMessage(){
   const name=document.getElementById("name");
   const message=document.getElementById("message");
   const status=document.getElementById("status");
 
-  status.innerText="Sending...";
+  status.innerText="Transmitting...";
 
   await fetch("https://formspree.io/f/mykvabzl",{
     method:"POST",
@@ -396,7 +385,7 @@ async function sendMessage(){
     body:JSON.stringify({name:name.value,message:message.value})
   });
 
-  status.innerText="Sent ✔";
+  status.innerText="✔ Message sent to studio";
 }
 
 </script>
