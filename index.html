@@ -72,7 +72,6 @@ body{
   font-size:12px;
   letter-spacing:3px;
   color:#00e5ff;
-  text-shadow:0 0 10px rgba(0,229,255,0.4);
 }
 
 @keyframes scroll{
@@ -81,21 +80,16 @@ body{
 }
 
 /* =========================
-   LAYOUT
+   MAIN LAYOUT
 ========================= */
 
 .app{
   max-width:1200px;
   margin:90px auto 60px;
   padding:20px;
-  display:grid;
-  gap:26px;
 }
 
-/* =========================
-   HERO
-========================= */
-
+/* HERO FULL WIDTH */
 .hero{
   text-align:center;
   padding:40px 20px;
@@ -109,7 +103,6 @@ body{
   background:linear-gradient(90deg,#00e5ff,#ff00cc,#8a2be2);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  text-shadow:0 0 25px rgba(0,229,255,0.15);
 }
 
 .hero h2{
@@ -117,6 +110,18 @@ body{
   color:#9aa0ff;
   margin-top:12px;
   letter-spacing:2px;
+}
+
+/* =========================
+   NEW SIDE-BY-SIDE GRID
+========================= */
+
+.main-grid{
+  display:grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap:24px;
+  align-items:start;
+  margin-top:20px;
 }
 
 /* =========================
@@ -128,7 +133,7 @@ body{
   border:1px solid rgba(0,229,255,0.18);
   backdrop-filter:blur(18px);
   border-radius:20px;
-  padding:24px;
+  padding:20px;
   box-shadow:
     0 0 25px rgba(0,229,255,0.12),
     0 0 60px rgba(255,0,200,0.05);
@@ -165,9 +170,7 @@ body{
   border-radius:30px;
   font-size:12px;
   font-weight:700;
-  letter-spacing:1px;
   animation:pulse 1.6s infinite;
-  box-shadow:0 0 20px rgba(255,0,76,0.4);
 }
 
 @keyframes pulse{
@@ -180,8 +183,8 @@ body{
 ========================= */
 
 #cover{
-  width:230px;
-  height:230px;
+  width:200px;
+  height:200px;
   border-radius:16px;
   object-fit:cover;
   box-shadow:0 0 25px rgba(0,229,255,0.25);
@@ -192,7 +195,7 @@ body{
 ========================= */
 
 #track{
-  font-size:24px;
+  font-size:20px;
   font-weight:600;
 }
 
@@ -208,9 +211,9 @@ body{
 .wave{
   display:flex;
   gap:4px;
-  height:40px;
+  height:36px;
   align-items:flex-end;
-  margin-top:12px;
+  margin-top:10px;
 }
 
 .wave div{
@@ -218,12 +221,11 @@ body{
   background:linear-gradient(180deg,#00e5ff,#ff00cc);
   animation:wave 1.1s infinite ease-in-out;
   border-radius:4px;
-  box-shadow:0 0 10px rgba(0,229,255,0.4);
 }
 
 @keyframes wave{
   0%,100%{height:6px;opacity:0.5}
-  50%{height:42px;opacity:1}
+  50%{height:40px;opacity:1}
 }
 
 /* =========================
@@ -232,7 +234,7 @@ body{
 
 input,textarea{
   width:100%;
-  padding:14px;
+  padding:12px;
   margin-top:10px;
   border-radius:12px;
   border:1px solid rgba(0,229,255,0.2);
@@ -256,14 +258,6 @@ button{
   font-weight:800;
   cursor:pointer;
   color:#000;
-  letter-spacing:1px;
-  box-shadow:0 0 20px rgba(0,229,255,0.25);
-  transition:0.2s ease;
-}
-
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 30px rgba(255,0,204,0.3);
 }
 
 /* =========================
@@ -279,11 +273,10 @@ button:hover{
   opacity:0.6;
   animation:float 14s linear infinite;
   z-index:-3;
-  box-shadow:0 0 10px rgba(0,229,255,0.4);
 }
 
 @keyframes float{
-  from{transform:translateY(100vh) translateX(0)}
+  from{transform:translateY(100vh)}
   to{transform:translateY(-10vh) translateX(30px)}
 }
 
@@ -291,10 +284,19 @@ button:hover{
    MOBILE
 ========================= */
 
-@media(max-width:700px){
-  .card{flex-direction:column;text-align:center}
-  #cover{width:180px;height:180px}
-  .hero h1{font-size:42px}
+@media(max-width:900px){
+  .main-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+
+  #cover{
+    width:170px;
+    height:170px;
+  }
 }
 
 </style>
@@ -319,31 +321,38 @@ button:hover{
     <h2>ProdigalSunRadio.com</h2>
   </div>
 
-  <div class="card">
-    <div class="live">LIVE</div>
+  <!-- SIDE BY SIDE SECTION -->
+  <div class="main-grid">
 
-    <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+    <!-- PLAYER -->
+    <div class="card">
+      <div class="live">LIVE</div>
 
-    <div class="info">
-      <div id="track">Loading...</div>
-      <div class="sub">Live from PSR Studio</div>
+      <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
-      <div class="wave">
-        <div></div><div></div><div></div><div></div><div></div>
+      <div class="info">
+        <div id="track">Loading...</div>
+        <div class="sub">Live from PSR Studio</div>
+
+        <div class="wave">
+          <div></div><div></div><div></div><div></div><div></div>
+        </div>
+
+        <iframe width="100%" height="140"
+        src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff"
+        frameborder="0"></iframe>
       </div>
-
-      <iframe width="100%" height="160"
-      src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff"
-      frameborder="0"></iframe>
     </div>
-  </div>
 
-  <div class="panel">
-    <h3>Send Message to HQ</h3>
-    <input id="name" placeholder="Name">
-    <textarea id="message" placeholder="Message"></textarea>
-    <button onclick="sendMessage()">Send</button>
-    <div id="status"></div>
+    <!-- MESSAGE BOX -->
+    <div class="panel">
+      <h3>Send Message to HQ</h3>
+      <input id="name" placeholder="Name">
+      <textarea id="message" placeholder="Message"></textarea>
+      <button onclick="sendMessage()">Send</button>
+      <div id="status"></div>
+    </div>
+
   </div>
 
 </div>
@@ -368,7 +377,8 @@ async function update(){
     const d=await r.json();
     document.getElementById("track").innerHTML =
       "<b>"+d.artist+"</b><br>"+d.title;
-    document.getElementById("cover").src = d.cover || "https://i.imgur.com/QPevqGi.png";
+    document.getElementById("cover").src =
+      d.cover || "https://i.imgur.com/QPevqGi.png";
   }catch(e){}
 }
 
