@@ -2,306 +2,258 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PSR Live Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSR Live Hub - Premium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box}
 
-/* =========================
-   BACKGROUND SLIDESHOW (UNCHANGED)
-========================= */
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  background: #0b0c10;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
+body{
+  margin:0;
+  font-family:Inter,system-ui,Arial;
+  color:#fff;
+  overflow-x:hidden;
+  background:#000;
 }
 
-/* slideshow layers */
-.bg-slide {
-  position: fixed;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 2.5s ease-in-out;
-  z-index: -3;
+/* VIDEO BACKGROUND */
+#bgVideo{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-5;
+  filter:brightness(0.55) contrast(1.1) saturate(1.2);
+  transform:scale(1.1);
 }
 
-.bg-slide.active {
-  opacity: 1;
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at 20% 20%, rgba(0,229,255,0.15), transparent 40%),
+             radial-gradient(circle at 80% 80%, rgba(255,0,150,0.10), transparent 45%),
+             rgba(5,6,10,0.65);
+  z-index:-4;
 }
 
-/* dark overlay */
-.bg-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 6, 10, 0.75);
-  z-index: -2;
+/* TICKER */
+.ticker{
+  position:fixed;
+  top:0;
+  width:100%;
+  overflow:hidden;
+  background:rgba(0,0,0,0.4);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:10;
 }
 
-/* =========================
-   LAYOUT
-========================= */
-
-.app {
-  width: 100%;
-  max-width: 1250px;
-  display: grid;
-  gap: 28px;
-  justify-items:center;
+.ticker span{
+  display:inline-block;
+  white-space:nowrap;
+  padding:12px 0;
+  animation:scroll 25s linear infinite;
+  font-size:13px;
+  letter-spacing:2px;
 }
 
-header {
-  text-align: center;
+@keyframes scroll{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
 }
 
-header h1 {
-  margin: 0;
-  font-size: 74px;
-}
-   .site-link {
-  margin-top: 10px;
-}
-
-.site-link a {
-  color: #00e5ff;
-  font-size: 16px;
-  text-decoration: none;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(0,229,255,0.4);
-  padding-bottom: 2px;
-  transition: 0.3s ease;
+/* LAYOUT */
+.app{
+  max-width:1200px;
+  margin:80px auto 60px;
+  padding:20px;
+  display:grid;
+  gap:24px;
 }
 
-.site-link a:hover {
-  color: #ffffff;
-  border-bottom-color: #ffffff;
+/* HERO */
+.hero{
+  text-align:center;
+  padding:30px 20px;
 }
 
-/* =========================
-   TIGHTER CARDS (FIX)
-========================= */
-
-.card,
-.panel {
-  background:#151820;
-  border-radius:22px;
-  padding:28px;
-  height:fit-content;
-
-  width:min(1100px,95vw);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  box-shadow:
-    0 0 20px rgba(0,229,255,0.10),
-    0 0 45px rgba(0,229,255,0.08);
+.hero h1{
+  font-size:56px;
+  margin:0;
+  letter-spacing:2px;
 }
 
-/* =========================
-   NOW PLAYING CARD
-========================= */
-
-.card {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  position: relative;
-}
-
-.live {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  background: #ff3b3b;
-  color: #fff;
-  font-size: 13px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-  animation: livePulse 2.8s ease-in-out infinite;
-}
-
-@keyframes livePulse {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.12); opacity: 1; }
-}
-
-#cover {
-  width: clamp(240px,26vw,340px);
-  height: clamp(240px,26vw,340px);
-  border-radius: 14px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-#track {
-  font-size:24px;
-  line-height:1.55;
-}
-
-.sub {
+.hero h2{
+  font-weight:400;
   color:#aaa;
-  font-size:17px;
+  margin-top:10px;
 }
 
-/* =========================
-   PLAYER
-========================= */
-
-.neon-player {
-  width: 100%;
-  border-radius: 14px;
-  overflow: visible;
-  box-shadow:
-    0 0 14px rgba(0,229,255,0.25),
-    0 0 35px rgba(0,229,255,0.12);
+/* GLASS CARD */
+.card,.panel{
+  background:rgba(20,22,30,0.65);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 0 30px rgba(0,229,255,0.08);
 }
 
-.neon-player iframe {
+/* NOW PLAYING */
+.card{
+  display:flex;
+  gap:20px;
+  align-items:center;
+  position:relative;
+}
+
+.live{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:#ff3b3b;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
+
+#cover{
+  width:220px;
+  height:220px;
+  border-radius:14px;
+  object-fit:cover;
+}
+
+/* INFO */
+.info{flex:1}
+
+#track{font-size:22px;margin-bottom:6px}
+.sub{color:#aaa;margin-bottom:10px}
+
+/* WAVES */
+.wave{
+  display:flex;
+  gap:4px;
+  height:40px;
+  align-items:flex-end;
+  margin-top:10px;
+}
+
+.wave div{
+  width:6px;
+  background:#00e5ff;
+  animation:wave 1.2s infinite ease-in-out;
+}
+
+.wave div:nth-child(2){animation-delay:.1s}
+.wave div:nth-child(3){animation-delay:.2s}
+.wave div:nth-child(4){animation-delay:.3s}
+.wave div:nth-child(5){animation-delay:.4s}
+
+@keyframes wave{
+  0%,100%{height:6px}
+  50%{height:40px}
+}
+
+/* FORM */
+input,textarea{
   width:100%;
-  height:175px;
-  border: 0;
-  display: block;
-  background: #000;
+  padding:14px;
+  margin-top:10px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(0,0,0,0.4);
+  color:#fff;
 }
 
-/* =========================
-   FORM
-========================= */
-
-input, textarea {
+button{
+  margin-top:12px;
   width:100%;
-  padding:18px;
-  font-size:17px;
-  margin-top: 6px;
-  border-radius: 10px;
-  border: 1px solid #2a2f3a;
-  background: #0d0f14;
-  color: #fff;
-  box-sizing: border-box;
+  padding:14px;
+  background:#1db954;
+  border:none;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-textarea {
-  min-height: 190px;
-  resize: vertical;
+/* PARTICLES */
+.particle{
+  position:fixed;
+  width:3px;
+  height:3px;
+  background:#00e5ff;
+  border-radius:50%;
+  opacity:0.5;
+  animation:float 12s linear infinite;
+  z-index:-3;
 }
 
-button {
-  width:100%;
-  margin-top:18px;
-  padding:18px;
-  font-size:18px;
-  border: none;
-  border-radius: 10px;
-  background: #1db954;
-  color: #000;
-  font-weight: 700;
-  cursor: pointer;
+@keyframes float{
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
 }
 
-button:hover {
-  background: #17a74a;
+@media(max-width:700px){
+  .card{flex-direction:column;text-align:center}
+  #cover{width:180px;height:180px}
 }
-
-#status {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 13px;
-  color: #aaa;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 600px) {
-  .card {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #cover {
-    width: 180px;
-    height: 180px;
-  }
-
-  .info {
-    width: 100%;
-  }
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND SLIDESHOW -->
-<div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4');"></div>
-<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507838153414-b4b713384a76');"></div>
-<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f');"></div>
-<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1511379938547-c1f69419868d');"></div>
-<div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3');"></div>
-<div class="bg-slide" style="background-image:url('https://static.wixstatic.com/media/4657a4_cccc31ae6cef43839ce5a7963c8417e5~mv2.png');"></div>
-<div class="bg-slide" style="background-image:url('https://static.wixstatic.com/media/4657a4_15c04aaa3e184d52832fb9dbf45bae06~mv2.png');"></div>
-<div class="bg-slide" style="background-image:url('https://static.wixstatic.com/media/4657a4_2e274bae00f346dd948d1b24095de00c~mv2.png');"></div>
-<div class="bg-slide" style="background-image:url('https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4');"></div>
-<div class="bg-slide" style="background-image:url('https://static.wixstatic.com/media/4657a4_91439f40e9324d5eb72dddb839a0dfb1~mv2.jpg');"></div>
+<!-- VIDEO BACKGROUND -->
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="https://video.wixstatic.com/video/4657a4_d5cf9c3f434847e699e739b1d7e3c466/720p/mp4/file.mp4" type="video/mp4">
+</video>
 
-<div class="bg-overlay"></div>
+<div class="overlay"></div>
+
+<div class="ticker">
+  <span>PSR LIVE • HOUSE • AFRO HOUSE • DNB • REGGAE • DUBSTEP • NEW MUSIC DAILY • GLOBAL DJ SESSIONS • PSR COMMUNITY RADIO • </span>
+</div>
 
 <div class="app">
 
-  <header>
-    <h1>🎧 Prodigal Sun Radio</h1>
-  </header>
-   <header>
-    <h2>ProdigalSunRadio.Com</h2>
-  </header>
+  <div class="hero">
+    <h1>Prodigal Sun Radio</h1>
+    <h2>ProdigalSunRadio.com</h2>
+  </div>
 
   <div class="card">
-
     <div class="live">LIVE</div>
 
     <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
     <div class="info">
-
-      <div id="track">Loading now playing...</div>
+      <div id="track">Loading...</div>
       <div class="sub">Live from PSR Studio</div>
 
-      <div class="neon-player">
-        <iframe
-          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff&f=0&i=0&p=0&s=0&alb=0&li=0&popup=0&plc=0&h=undefined&l=110&v=2"
-          allow="autoplay">
-        </iframe>
+      <div class="wave">
+        <div></div><div></div><div></div><div></div><div></div>
       </div>
 
+      <iframe width="100%" height="160"
+      src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%2300e5ff"
+      frameborder="0"></iframe>
     </div>
   </div>
 
   <div class="panel">
-    <h3>✉️ Send Message to HQ</h3>
-
-    <input type="text" id="name" placeholder="Your name">
-    <textarea id="message" placeholder="Your message"></textarea>
-
-    <button onclick="sendMessage()">Send Message</button>
+    <h3>Send Message to HQ</h3>
+    <input id="name" placeholder="Name">
+    <textarea id="message" placeholder="Message"></textarea>
+    <button onclick="sendMessage()">Send</button>
     <div id="status"></div>
   </div>
 
@@ -309,81 +261,47 @@ button:hover {
 
 <script>
 
-/* SLIDESHOW */
-const slides = document.querySelectorAll(".bg-slide");
-let current = 0;
-
-setInterval(() => {
-  slides[current].classList.remove("active");
-  current = (current + 1) % slides.length;
-  slides[current].classList.add("active");
-}, 6000);
+/* PARTICLES */
+for(let i=0;i<30;i++){
+  const p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(8+Math.random()*10)+"s";
+  document.body.appendChild(p);
+}
 
 /* NOW PLAYING */
-const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
+const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
-async function updateNowPlaying() {
-  try {
-    const res = await fetch(API, { cache: "no-store" });
-    const data = await res.json();
-
-    document.getElementById("track").innerHTML =
-      "<b>" + data.artist + "</b><br>" + data.title;
-
-    document.getElementById("cover").src =
-      data.cover || "https://i.imgur.com/QPevqGi.png";
-
-  } catch (e) {
-    document.getElementById("track").innerText =
-      "Unable to load now playing";
-  }
+async function update(){
+  try{
+    const r=await fetch(API);
+    const d=await r.json();
+    document.getElementById("track").innerHTML=
+      "<b>"+d.artist+"</b><br>"+d.title;
+    document.getElementById("cover").src=d.cover||"https://i.imgur.com/QPevqGi.png";
+  }catch(e){}
 }
 
-updateNowPlaying();
-setInterval(updateNowPlaying, 15000);
+update();
+setInterval(update,15000);
 
 /* FORM */
-const ENDPOINT = "https://formspree.io/f/mykvabzl";
+async function sendMessage(){
+  const name=document.getElementById("name");
+  const message=document.getElementById("message");
+  const status=document.getElementById("status");
 
-async function sendMessage() {
-  const name = document.getElementById("name");
-  const message = document.getElementById("message");
-  const status = document.getElementById("status");
+  status.innerText="Sending...";
 
-  if (!name.value.trim() || !message.value.trim()) {
-    status.innerText = "Please fill in all fields";
-    return;
-  }
+  await fetch("https://formspree.io/f/mykvabzl",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({name:name.value,message:message.value})
+  });
 
-  status.innerText = "Sending...";
-
-  try {
-    const res = await fetch(ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({
-        name: name.value.trim(),
-        message: message.value.trim(),
-        station: "PSR Live Hub"
-      })
-    });
-
-    if (res.ok) {
-      status.innerText = "Message sent to HQ ✔";
-      name.value = "";
-      message.value = "";
-    } else {
-      status.innerText = "Failed to send message";
-    }
-
-  } catch (err) {
-    status.innerText = "Network error";
-  }
+  status.innerText="Sent ✔";
 }
-
 </script>
 
 </body>
