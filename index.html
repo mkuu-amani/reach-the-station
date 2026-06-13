@@ -20,17 +20,11 @@
 
 body{
   margin:0;
-  font-family:"Inter","Helvetica Neue",Arial,sans-serif;
   background:#f5f7fb;
-  color:#111;
   overflow-x:hidden;
-  letter-spacing:0.2px;
 }
 
-/* =========================
-   BACKGROUND VIDEO
-========================= */
-
+/* BACKGROUND VIDEO */
 #bgVideo{
   position:fixed;
   inset:0;
@@ -48,15 +42,11 @@ body{
   background:
     radial-gradient(circle at 20% 20%, rgba(0,120,255,0.40), transparent 40%),
     radial-gradient(circle at 80% 30%, rgba(0,180,255,0.30), transparent 45%),
-    radial-gradient(circle at 50% 90%, rgba(0,80,255,0.25), transparent 55%),
     linear-gradient(180deg, rgba(0,90,255,0.20), rgba(0,0,40,0.55));
   z-index:-4;
 }
 
-/* =========================
-   TOP BAR + ON AIR
-========================= */
-
+/* TOPBAR */
 .topbar{
   position:sticky;
   top:0;
@@ -67,13 +57,13 @@ body{
   align-items:center;
   background:rgba(255,255,255,0.85);
   backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(0,0,0,0.05);
-  z-index:10;
   font-size:12px;
   letter-spacing:1.5px;
   color:#333;
+  z-index:10;
 }
 
+/* ON AIR */
 .onair-wrap{
   display:flex;
   align-items:center;
@@ -83,16 +73,14 @@ body{
 .onair-strip{
   font-size:11px;
   font-weight:800;
-  letter-spacing:2px;
   padding:4px 10px;
   border-radius:4px;
   color:#fff;
   background:linear-gradient(90deg,#ff0000,#ff2b2b,#ff0066);
-  box-shadow:0 0 10px rgba(255,0,0,0.6);
-  animation:onAirPulse 1.2s infinite ease-in-out;
+  animation:pulseAir 1.2s infinite;
 }
 
-@keyframes onAirPulse{
+@keyframes pulseAir{
   0%,100%{transform:scale(1);opacity:1;}
   50%{transform:scale(1.08);opacity:0.85;}
 }
@@ -110,50 +98,19 @@ body{
   50%{opacity:0.3}
 }
 
-/* =========================
-   LAYOUT
-========================= */
-
+/* LAYOUT */
 .app{
   max-width:1200px;
   margin:0 auto;
   padding:70px 20px 20px;
-  min-height:100dvh;
   display:flex;
   flex-direction:column;
-  justify-content:flex-end;
   gap:18px;
 }
 
-.header{
-  text-align:center;
-  margin-top:auto;
-}
-
-.header h1{
-  margin:0;
-  font-size:56px;
-  font-weight:800;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.header h2{
-  margin-top:6px;
-  font-size:13px;
-  letter-spacing:3px;
-  color:#555;
-}
-
-/* =========================
-   CONSOLE
-========================= */
-
 .console{
   display:grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns:1.4fr 1fr;
   gap:18px;
 }
 
@@ -164,15 +121,11 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   VIDEO PANEL (PLAYER RESTORED)
-========================= */
-
+/* VIDEO PANEL */
 .video-panel{
   position:relative;
   overflow:hidden;
   min-height:360px;
-  border:1px solid rgba(0,180,255,0.25);
 }
 
 .panel-video{
@@ -188,8 +141,7 @@ body{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
-    radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
+    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
   z-index:1;
 }
 
@@ -200,7 +152,7 @@ body{
 }
 
 /* =========================
-   NOW PLAYING (RESTORED FULL)
+   NOW PLAYING (FIXED COVER ART)
 ========================= */
 
 .now-playing{
@@ -209,16 +161,20 @@ body{
   align-items:center;
 }
 
+/* 🔥 COVER ART RESTORED + GLOW */
 #cover{
   width:140px;
   height:140px;
   border-radius:12px;
   object-fit:cover;
-  border:2px solid rgba(0,194,255,0.8);
+
+  border:2px solid rgba(0,194,255,0.9);
+
   box-shadow:
     0 0 10px rgba(0,194,255,0.8),
-    0 0 20px rgba(0,194,255,0.7),
-    0 0 40px rgba(0,194,255,0.6);
+    0 0 25px rgba(0,194,255,0.6),
+    0 0 60px rgba(0,194,255,0.4);
+
   animation:coverPulse 2.5s infinite ease-in-out;
 }
 
@@ -227,9 +183,10 @@ body{
   50%{transform:scale(1.05);}
 }
 
+/* TRACK TEXT */
 #track{
   font-size:18px;
-  font-weight:700;
+  font-weight:800;
   color:#fff;
 }
 
@@ -239,6 +196,7 @@ body{
   margin-top:4px;
 }
 
+/* VU METERS */
 .meters{
   display:flex;
   gap:3px;
@@ -264,13 +222,9 @@ body{
   margin-top:14px;
   border-radius:10px;
   overflow:hidden;
-  border:1px solid rgba(255,255,255,0.15);
 }
 
-/* =========================
-   MESSAGE PANEL FIX (NEON NAVY TITLE)
-========================= */
-
+/* MESSAGE PANEL TITLE */
 .message-panel h3{
   color:#1f4fff;
   font-size:18px;
@@ -297,14 +251,13 @@ button{
   border:none;
   border-radius:10px;
   font-weight:800;
-  cursor:pointer;
   color:#fff;
+  cursor:pointer;
 }
 
 /* MOBILE */
 @media(max-width:900px){
   .console{grid-template-columns:1fr;}
-  .header h1{font-size:38px;}
 }
 
 </style>
@@ -312,12 +265,14 @@ button{
 
 <body>
 
+<!-- BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
 
 <div class="overlay"></div>
 
+<!-- TOP BAR -->
 <div class="topbar">
   <div class="onair-wrap">
     <span class="onair-strip">ON AIR</span>
@@ -329,14 +284,9 @@ button{
 
 <div class="app">
 
-  <div class="header">
-    <h1>PRODIGAL SUN RADIO</h1>
-    <h2>LIVE BROADCAST CONSOLE</h2>
-  </div>
-
   <div class="console">
 
-    <!-- PLAYER (FULLY RESTORED) -->
+    <!-- PLAYER (FULL RESTORED COVER ART) -->
     <div class="panel video-panel">
 
       <video class="panel-video" autoplay muted loop playsinline>
@@ -349,6 +299,7 @@ button{
 
         <div class="now-playing">
 
+          <!-- ✅ COVER ART BACK IN PLACE -->
           <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
           <div>
@@ -371,14 +322,8 @@ button{
       </div>
     </div>
 
-    <!-- MESSAGE PANEL -->
-    <div class="panel video-panel message-panel">
-
-      <video class="panel-video" autoplay muted loop playsinline>
-        <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
-      </video>
-
-      <div class="panel-overlay"></div>
+    <!-- MESSAGE -->
+    <div class="panel video-panel">
 
       <div class="panel-content">
 
@@ -401,6 +346,27 @@ button{
 
 <script>
 
+/* LIVE TRACK + COVER UPDATE */
+const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
+
+async function update(){
+  try{
+    const r=await fetch(API);
+    const d=await r.json();
+
+    document.getElementById("track").innerHTML =
+      "<b>"+d.artist+"</b><br>"+d.title;
+
+    document.getElementById("cover").src =
+      d.cover || "https://i.imgur.com/QPevqGi.png";
+
+  }catch(e){}
+}
+
+update();
+setInterval(update,15000);
+
+/* MESSAGE */
 async function sendMessage(){
   const name=document.getElementById("name");
   const message=document.getElementById("message");
