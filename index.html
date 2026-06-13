@@ -67,7 +67,6 @@ body{
   z-index:10;
 }
 
-/* ON AIR */
 .onair-wrap{
   display:flex;
   align-items:center;
@@ -103,7 +102,7 @@ body{
 }
 
 /* =========================
-   PAGE LAYOUT (FIXED BOTTOM ALIGNMENT)
+   PAGE LAYOUT
 ========================= */
 
 .app{
@@ -192,7 +191,7 @@ body{
 }
 
 /* =========================
-   NOW PLAYING
+   NOW PLAYING (FIXED + STABLE)
 ========================= */
 
 .now-playing{
@@ -201,7 +200,6 @@ body{
   align-items:center;
 }
 
-/* ✅ COVER ART (STABLE FIX) */
 #cover{
   width:140px;
   height:140px;
@@ -266,6 +264,7 @@ body{
   z-index:2;
 }
 
+/* TITLE */
 .message-panel h3{
   color:#1f4fff;
   font-size:18px;
@@ -339,12 +338,15 @@ button{
       <div class="panel-content">
 
         <div class="now-playing">
+
+          <!-- SAFE COVER ART (NEVER BREAKS) -->
           <img id="cover" src="https://i.imgur.com/QPevqGi.png" alt="cover art">
 
           <div>
             <div id="track">Loading...</div>
             <div class="sub">Live Studio Feed</div>
           </div>
+
         </div>
 
         <div class="stream">
@@ -385,6 +387,34 @@ button{
 </div>
 
 <script>
+
+const API="https://api.radioking.io/widget/radio/443393/track/current";
+
+/* SAFE NOW PLAYING + COVER HANDLING */
+async function update(){
+  try{
+    const r = await fetch(API);
+    const d = await r.json();
+
+    const track = document.getElementById("track");
+    const cover = document.getElementById("cover");
+
+    track.innerHTML = (d && d.artist && d.title)
+      ? "<b>"+d.artist+"</b><br>"+d.title
+      : "LIVE BROADCAST";
+
+    cover.src = (d && d.cover && d.cover.length > 0)
+      ? d.cover
+      : "https://i.imgur.com/QPevqGi.png";
+
+  }catch(e){
+    document.getElementById("track").innerHTML = "LIVE BROADCAST";
+    document.getElementById("cover").src = "https://i.imgur.com/QPevqGi.png";
+  }
+}
+
+update();
+setInterval(update,15000);
 
 async function sendMessage(){
   const name=document.getElementById("name");
