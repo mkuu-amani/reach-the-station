@@ -8,7 +8,7 @@
 <style>
 
 /* =========================
-   GLOBAL MODERN FONT SYSTEM
+   GLOBAL FONT SYSTEM
 ========================= */
 
 *{
@@ -42,7 +42,6 @@ body{
   transform:scale(1.05);
 }
 
-/* OVERLAY */
 .overlay{
   position:fixed;
   inset:0;
@@ -55,7 +54,7 @@ body{
 }
 
 /* =========================
-   TOP BAR
+   TOP BAR + ON AIR
 ========================= */
 
 .topbar{
@@ -81,7 +80,6 @@ body{
   gap:10px;
 }
 
-/* ON AIR STRIP */
 .onair-strip{
   font-size:11px;
   font-weight:800;
@@ -89,19 +87,14 @@ body{
   padding:4px 10px;
   border-radius:4px;
   color:#fff;
-
   background:linear-gradient(90deg,#ff0000,#ff2b2b,#ff0066);
-
-  box-shadow:
-    0 0 10px rgba(255,0,0,0.6),
-    0 0 20px rgba(255,0,0,0.4);
-
+  box-shadow:0 0 10px rgba(255,0,0,0.6);
   animation:onAirPulse 1.2s infinite ease-in-out;
 }
 
 @keyframes onAirPulse{
-  0%,100%{transform:scale(1);opacity:1;filter:brightness(1);}
-  50%{transform:scale(1.08);opacity:0.85;filter:brightness(1.3);}
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.08);opacity:0.85;}
 }
 
 .live-dot{
@@ -132,7 +125,6 @@ body{
   gap:18px;
 }
 
-/* HEADER */
 .header{
   text-align:center;
   margin-top:auto;
@@ -172,7 +164,10 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* VIDEO PANEL */
+/* =========================
+   VIDEO PANEL (PLAYER RESTORED)
+========================= */
+
 .video-panel{
   position:relative;
   overflow:hidden;
@@ -205,29 +200,91 @@ body{
 }
 
 /* =========================
-   FIX: MESSAGE PANEL TITLE
+   NOW PLAYING (RESTORED FULL)
+========================= */
+
+.now-playing{
+  display:flex;
+  gap:16px;
+  align-items:center;
+}
+
+#cover{
+  width:140px;
+  height:140px;
+  border-radius:12px;
+  object-fit:cover;
+  border:2px solid rgba(0,194,255,0.8);
+  box-shadow:
+    0 0 10px rgba(0,194,255,0.8),
+    0 0 20px rgba(0,194,255,0.7),
+    0 0 40px rgba(0,194,255,0.6);
+  animation:coverPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes coverPulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+}
+
+#track{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+}
+
+.sub{
+  font-size:12px;
+  color:rgba(255,255,255,0.75);
+  margin-top:4px;
+}
+
+.meters{
+  display:flex;
+  gap:3px;
+  margin-top:12px;
+  height:30px;
+  align-items:flex-end;
+}
+
+.meters span{
+  width:4px;
+  background:linear-gradient(to top,#0066ff,#00c2ff,#ff00cc);
+  animation:vu 1s infinite ease-in-out;
+  border-radius:2px;
+}
+
+@keyframes vu{
+  0%,100%{height:5px;opacity:0.5}
+  50%{height:30px;opacity:1}
+}
+
+/* STREAM */
+.stream{
+  margin-top:14px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+/* =========================
+   MESSAGE PANEL FIX (NEON NAVY TITLE)
 ========================= */
 
 .message-panel h3{
-  color:#1f4fff; /* neon navy blue */
+  color:#1f4fff;
   font-size:18px;
   font-weight:800;
-  letter-spacing:1px;
-
-  text-shadow:
-    0 0 6px rgba(31,79,255,0.6),
-    0 0 14px rgba(31,79,255,0.4);
+  text-shadow:0 0 8px rgba(31,79,255,0.6);
 }
 
 /* INPUTS */
-.message-panel input,
-.message-panel textarea{
+input, textarea{
   width:100%;
   padding:12px;
   margin-top:10px;
   border-radius:10px;
   border:1px solid rgba(0,0,0,0.1);
-  background:rgba(255,255,255,0.92);
   font-size:13px;
 }
 
@@ -279,14 +336,42 @@ button{
 
   <div class="console">
 
-    <!-- PLAYER -->
+    <!-- PLAYER (FULLY RESTORED) -->
     <div class="panel video-panel">
+
+      <video class="panel-video" autoplay muted loop playsinline>
+        <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
+      </video>
+
+      <div class="panel-overlay"></div>
+
       <div class="panel-content">
-        <h3 style="color:#fff;">Now Playing</h3>
+
+        <div class="now-playing">
+
+          <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+
+          <div>
+            <div id="track">Loading...</div>
+            <div class="sub">Live Studio Feed</div>
+
+            <div class="meters">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="stream">
+          <iframe width="100%" height="140"
+          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff"
+          frameborder="0"></iframe>
+        </div>
+
       </div>
     </div>
 
-    <!-- MESSAGE -->
+    <!-- MESSAGE PANEL -->
     <div class="panel video-panel message-panel">
 
       <video class="panel-video" autoplay muted loop playsinline>
