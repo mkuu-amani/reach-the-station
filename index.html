@@ -110,7 +110,6 @@ body{
   max-width:1200px;
   margin:0 auto;
 
-  /* KEY FIX: pushes content to bottom */
   min-height:100vh;
   display:flex;
   flex-direction:column;
@@ -152,7 +151,7 @@ body{
   gap:18px;
 }
 
-/* PANEL BASE */
+/* PANEL */
 .panel{
   background:rgba(255,255,255,0.94);
   border-radius:14px;
@@ -202,6 +201,7 @@ body{
   align-items:center;
 }
 
+/* ✅ COVER ART (STABLE FIX) */
 #cover{
   width:140px;
   height:140px;
@@ -229,27 +229,21 @@ body{
   margin-top:4px;
 }
 
-/* =========================
-   STREAM
-========================= */
-
+/* STREAM */
 .stream{
   margin-top:14px;
   border-radius:10px;
   overflow:hidden;
 }
 
-/* =========================
-   MESSAGE PANEL (VIDEO RESTORED)
-========================= */
-
+/* MESSAGE PANEL */
 .message-panel{
   position:relative;
   overflow:hidden;
   min-height:360px;
 }
 
-/* 🔥 RESTORED VIDEO BACKGROUND */
+/* VIDEO BACKGROUND RESTORED */
 .message-panel .panel-video{
   position:absolute;
   inset:0;
@@ -272,7 +266,6 @@ body{
   z-index:2;
 }
 
-/* TITLE FIX */
 .message-panel h3{
   color:#1f4fff;
   font-size:18px;
@@ -314,7 +307,7 @@ button{
 
 <body>
 
-<!-- GLOBAL BACKGROUND -->
+<!-- BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
@@ -346,7 +339,7 @@ button{
       <div class="panel-content">
 
         <div class="now-playing">
-          <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+          <img id="cover" src="https://i.imgur.com/QPevqGi.png" alt="cover art">
 
           <div>
             <div id="track">Loading...</div>
