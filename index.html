@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PSR Broadcast Console</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<!-- ✅ FONT UPGRADE -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
 *{box-sizing:border-box}
+
+/* =========================
+   BASE FONT SYSTEM (UPGRADED FEEL)
+========================= */
 
 body{
   margin:0;
@@ -20,7 +25,7 @@ body{
 }
 
 /* =========================
-   MAIN BACKGROUND VIDEO
+   BACKGROUND VIDEO
 ========================= */
 
 #bgVideo{
@@ -34,7 +39,6 @@ body{
   transform:scale(1.05);
 }
 
-/* STRONG BLUE BROADCAST OVERLAY */
 .overlay{
   position:fixed;
   inset:0;
@@ -83,7 +87,7 @@ body{
 }
 
 /* =========================
-   LAYOUT (FIXED MOBILE SAFE)
+   LAYOUT
 ========================= */
 
 .app{
@@ -98,7 +102,10 @@ body{
   gap:18px;
 }
 
-/* HEADER */
+/* =========================
+   HEADER (MONTSERRAT BRANDING)
+========================= */
+
 .header{
   text-align:center;
   margin-top:auto;
@@ -106,8 +113,9 @@ body{
 
 .header h1{
   margin:0;
+  font-family:'Montserrat',sans-serif;
   font-size:56px;
-  font-weight:800;
+  font-weight:900;
   letter-spacing:2px;
   background:linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
   -webkit-background-clip:text;
@@ -132,7 +140,7 @@ body{
 }
 
 /* =========================
-   BASE PANEL
+   PANEL BASE
 ========================= */
 
 .panel{
@@ -144,7 +152,7 @@ body{
 }
 
 /* =========================
-   VIDEO PANEL CORE
+   VIDEO PANELS
 ========================= */
 
 .video-panel{
@@ -155,7 +163,6 @@ body{
   box-shadow:0 0 25px rgba(0,120,255,0.15);
 }
 
-/* shared video layer */
 .panel-video{
   position:absolute;
   inset:0;
@@ -165,7 +172,6 @@ body{
   z-index:0;
 }
 
-/* overlay layer */
 .panel-overlay{
   position:absolute;
   inset:0;
@@ -175,7 +181,6 @@ body{
   z-index:1;
 }
 
-/* content layer */
 .panel-content{
   position:relative;
   z-index:2;
@@ -183,7 +188,7 @@ body{
 }
 
 /* =========================
-   NOW PLAYING PANEL
+   NOW PLAYING (UPGRADED TYPOGRAPHY)
 ========================= */
 
 #cover{
@@ -194,43 +199,33 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
-#track{
-  font-size:18px;
-  font-weight:700;
-  color:#fff;
-}
-
-.sub{
-  font-size:12px;
-  color:rgba(255,255,255,0.75);
-  margin-top:4px;
-}
-
 .now-playing{
   display:flex;
   gap:16px;
   align-items:center;
 }
 
-/* VU METERS */
-.meters{
-  display:flex;
-  gap:3px;
-  margin-top:12px;
-  height:30px;
-  align-items:flex-end;
+/* ARTIST + TITLE SPLIT */
+.artist{
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.70);
 }
 
-.meters span{
-  width:4px;
-  background:linear-gradient(to top,#0066ff,#00c2ff,#ff00cc);
-  animation:vu 1s infinite ease-in-out;
-  border-radius:2px;
+.title{
+  font-size:22px;
+  font-weight:800;
+  color:#fff;
+  line-height:1.1;
+  margin-top:4px;
 }
 
-@keyframes vu{
-  0%,100%{height:5px;opacity:0.5}
-  50%{height:30px;opacity:1}
+.sub{
+  font-size:12px;
+  color:rgba(255,255,255,0.75);
+  margin-top:4px;
 }
 
 /* STREAM */
@@ -249,8 +244,6 @@ body{
   position:relative;
   overflow:hidden;
   min-height:360px;
-  border:1px solid rgba(0,180,255,0.25);
-  box-shadow:0 0 25px rgba(0,120,255,0.12);
 }
 
 .message-panel input,
@@ -274,10 +267,7 @@ body{
   margin-top:10px;
 }
 
-/* =========================
-   BUTTON
-========================= */
-
+/* BUTTON */
 button{
   margin-top:12px;
   width:100%;
@@ -291,11 +281,10 @@ button{
 }
 
 /* =========================
-   MOBILE FIX (IMPORTANT)
+   MOBILE FIX
 ========================= */
 
 @media(max-width:900px){
-
   .app{
     padding-top:85px;
     justify-content:flex-start;
@@ -318,7 +307,6 @@ button{
     width:110px;
     height:110px;
   }
-
 }
 
 </style>
@@ -326,7 +314,7 @@ button{
 
 <body>
 
-<!-- BACKGROUND VIDEO -->
+<!-- BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
@@ -418,10 +406,14 @@ async function update(){
   try{
     const r=await fetch(API);
     const d=await r.json();
+
     document.getElementById("track").innerHTML =
-      "<b>"+d.artist+"</b><br>"+d.title;
+      '<div class="artist">'+d.artist+'</div>' +
+      '<div class="title">'+d.title+'</div>';
+
     document.getElementById("cover").src =
       d.cover || "https://i.imgur.com/QPevqGi.png";
+
   }catch(e){}
 }
 
