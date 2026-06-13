@@ -5,27 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PSR Broadcast Console</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
 <style>
 
-/* =========================
-   GLOBAL FONT SYSTEM
-========================= */
-
-*{
-  box-sizing:border-box;
-  font-family:"Inter","Helvetica Neue",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
+  font-family:Inter,system-ui,Arial;
   background:#f5f7fb;
+  color:#111;
   overflow-x:hidden;
-  min-height:100vh;
 }
 
-/* BACKGROUND VIDEO */
+/* =========================
+   MAIN BACKGROUND VIDEO
+========================= */
+
 #bgVideo{
   position:fixed;
   inset:0;
@@ -37,12 +34,14 @@ body{
   transform:scale(1.05);
 }
 
+/* STRONG BLUE BROADCAST OVERLAY */
 .overlay{
   position:fixed;
   inset:0;
   background:
     radial-gradient(circle at 20% 20%, rgba(0,120,255,0.40), transparent 40%),
     radial-gradient(circle at 80% 30%, rgba(0,180,255,0.30), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(0,80,255,0.25), transparent 55%),
     linear-gradient(180deg, rgba(0,90,255,0.20), rgba(0,0,40,0.55));
   z-index:-4;
 }
@@ -61,31 +60,11 @@ body{
   align-items:center;
   background:rgba(255,255,255,0.85);
   backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  z-index:10;
   font-size:12px;
   letter-spacing:1.5px;
   color:#333;
-  z-index:10;
-}
-
-.onair-wrap{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.onair-strip{
-  font-size:11px;
-  font-weight:800;
-  padding:4px 10px;
-  border-radius:4px;
-  color:#fff;
-  background:linear-gradient(90deg,#ff0000,#ff2b2b,#ff0066);
-  animation:pulseAir 1.2s infinite;
-}
-
-@keyframes pulseAir{
-  0%,100%{transform:scale(1);opacity:1;}
-  50%{transform:scale(1.08);opacity:0.85;}
 }
 
 .live-dot{
@@ -93,6 +72,8 @@ body{
   height:10px;
   border-radius:50%;
   background:#ff2b2b;
+  display:inline-block;
+  margin-right:8px;
   animation:pulse 1.4s infinite;
 }
 
@@ -102,25 +83,25 @@ body{
 }
 
 /* =========================
-   PAGE LAYOUT
+   LAYOUT (FIXED MOBILE SAFE)
 ========================= */
 
 .app{
   max-width:1200px;
   margin:0 auto;
+  padding:70px 20px 20px;
+  min-height:100dvh;
 
-  min-height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
-
-  padding:70px 20px 20px;
   gap:18px;
 }
 
 /* HEADER */
 .header{
   text-align:center;
+  margin-top:auto;
 }
 
 .header h1{
@@ -141,7 +122,7 @@ body{
 }
 
 /* =========================
-   CONSOLE
+   CONSOLE GRID
 ========================= */
 
 .console{
@@ -150,9 +131,13 @@ body{
   gap:18px;
 }
 
-/* PANEL */
+/* =========================
+   BASE PANEL
+========================= */
+
 .panel{
   background:rgba(255,255,255,0.94);
+  border:1px solid rgba(0,0,0,0.06);
   border-radius:14px;
   padding:18px;
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
@@ -166,8 +151,11 @@ body{
   position:relative;
   overflow:hidden;
   min-height:360px;
+  border:1px solid rgba(0,180,255,0.25);
+  box-shadow:0 0 25px rgba(0,120,255,0.15);
 }
 
+/* shared video layer */
 .panel-video{
   position:absolute;
   inset:0;
@@ -177,47 +165,38 @@ body{
   z-index:0;
 }
 
+/* overlay layer */
 .panel-overlay{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
+    radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
   z-index:1;
 }
 
+/* content layer */
 .panel-content{
   position:relative;
   z-index:2;
+  padding:18px;
 }
 
 /* =========================
-   NOW PLAYING (FIXED + STABLE)
+   NOW PLAYING PANEL
 ========================= */
-
-.now-playing{
-  display:flex;
-  gap:16px;
-  align-items:center;
-}
 
 #cover{
   width:140px;
   height:140px;
   border-radius:12px;
   object-fit:cover;
-  border:2px solid rgba(0,194,255,0.9);
-  box-shadow:0 0 30px rgba(0,194,255,0.6);
-  animation:coverPulse 2.5s infinite ease-in-out;
-}
-
-@keyframes coverPulse{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.05);}
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
 #track{
   font-size:18px;
-  font-weight:800;
+  font-weight:700;
   color:#fff;
 }
 
@@ -227,62 +206,78 @@ body{
   margin-top:4px;
 }
 
+.now-playing{
+  display:flex;
+  gap:16px;
+  align-items:center;
+}
+
+/* VU METERS */
+.meters{
+  display:flex;
+  gap:3px;
+  margin-top:12px;
+  height:30px;
+  align-items:flex-end;
+}
+
+.meters span{
+  width:4px;
+  background:linear-gradient(to top,#0066ff,#00c2ff,#ff00cc);
+  animation:vu 1s infinite ease-in-out;
+  border-radius:2px;
+}
+
+@keyframes vu{
+  0%,100%{height:5px;opacity:0.5}
+  50%{height:30px;opacity:1}
+}
+
 /* STREAM */
 .stream{
   margin-top:14px;
   border-radius:10px;
   overflow:hidden;
+  border:1px solid rgba(255,255,255,0.15);
 }
 
-/* MESSAGE PANEL */
+/* =========================
+   MESSAGE PANEL
+========================= */
+
 .message-panel{
   position:relative;
   overflow:hidden;
   min-height:360px;
+  border:1px solid rgba(0,180,255,0.25);
+  box-shadow:0 0 25px rgba(0,120,255,0.12);
 }
 
-/* VIDEO BACKGROUND RESTORED */
-.message-panel .panel-video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:0;
-}
-
-.message-panel .panel-overlay{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.7));
-  z-index:1;
-}
-
-.message-panel .panel-content{
-  position:relative;
-  z-index:2;
-}
-
-/* TITLE */
-.message-panel h3{
-  color:#1f4fff;
-  font-size:18px;
-  font-weight:800;
-  text-shadow:0 0 8px rgba(31,79,255,0.6);
-}
-
-/* INPUTS */
-input, textarea{
+.message-panel input,
+.message-panel textarea{
   width:100%;
   padding:12px;
   margin-top:10px;
   border-radius:10px;
   border:1px solid rgba(0,0,0,0.1);
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(6px);
   font-size:13px;
 }
 
-/* BUTTON */
+.message-panel h3{
+  color:#fff;
+}
+
+#status{
+  color:#fff;
+  margin-top:10px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
 button{
   margin-top:12px;
   width:100%;
@@ -291,14 +286,39 @@ button{
   border:none;
   border-radius:10px;
   font-weight:800;
-  color:#fff;
   cursor:pointer;
+  color:#fff;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE FIX (IMPORTANT)
+========================= */
+
 @media(max-width:900px){
-  .console{grid-template-columns:1fr;}
-  .header h1{font-size:38px;}
+
+  .app{
+    padding-top:85px;
+    justify-content:flex-start;
+  }
+
+  .console{
+    grid-template-columns:1fr;
+  }
+
+  .header h1{
+    font-size:38px;
+    line-height:1;
+  }
+
+  .header h2{
+    margin-bottom:15px;
+  }
+
+  #cover{
+    width:110px;
+    height:110px;
+  }
+
 }
 
 </style>
@@ -306,7 +326,7 @@ button{
 
 <body>
 
-<!-- BACKGROUND -->
+<!-- BACKGROUND VIDEO -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
@@ -314,19 +334,20 @@ button{
 <div class="overlay"></div>
 
 <div class="topbar">
-  <div class="onair-wrap">
-    <span class="onair-strip">ON AIR</span>
-    <span class="live-dot"></span>
-    PSR LIVE BROADCAST
-  </div>
+  <div><span class="live-dot"></span>PSR LIVE BROADCAST</div>
   <div>PRODIGALSUNRADIO.COM</div>
 </div>
 
 <div class="app">
 
+  <div class="header">
+    <h1>PRODIGAL SUN RADIO</h1>
+    <h2>LIVE BROADCAST CONSOLE</h2>
+  </div>
+
   <div class="console">
 
-    <!-- PLAYER -->
+    <!-- NOW PLAYING -->
     <div class="panel video-panel">
 
       <video class="panel-video" autoplay muted loop playsinline>
@@ -339,12 +360,15 @@ button{
 
         <div class="now-playing">
 
-          <!-- SAFE COVER ART (NEVER BREAKS) -->
-          <img id="cover" src="https://i.imgur.com/QPevqGi.png" alt="cover art">
+          <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
           <div>
             <div id="track">Loading...</div>
             <div class="sub">Live Studio Feed</div>
+
+            <div class="meters">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
           </div>
 
         </div>
@@ -358,7 +382,7 @@ button{
       </div>
     </div>
 
-    <!-- MESSAGE -->
+    <!-- MESSAGE PANEL -->
     <div class="panel video-panel message-panel">
 
       <video class="panel-video" autoplay muted loop playsinline>
@@ -388,29 +412,17 @@ button{
 
 <script>
 
-const API="https://api.radioking.io/widget/radio/443393/track/current";
+const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
-/* SAFE NOW PLAYING + COVER HANDLING */
 async function update(){
   try{
-    const r = await fetch(API);
-    const d = await r.json();
-
-    const track = document.getElementById("track");
-    const cover = document.getElementById("cover");
-
-    track.innerHTML = (d && d.artist && d.title)
-      ? "<b>"+d.artist+"</b><br>"+d.title
-      : "LIVE BROADCAST";
-
-    cover.src = (d && d.cover && d.cover.length > 0)
-      ? d.cover
-      : "https://i.imgur.com/QPevqGi.png";
-
-  }catch(e){
-    document.getElementById("track").innerHTML = "LIVE BROADCAST";
-    document.getElementById("cover").src = "https://i.imgur.com/QPevqGi.png";
-  }
+    const r=await fetch(API);
+    const d=await r.json();
+    document.getElementById("track").innerHTML =
+      "<b>"+d.artist+"</b><br>"+d.title;
+    document.getElementById("cover").src =
+      d.cover || "https://i.imgur.com/QPevqGi.png";
+  }catch(e){}
 }
 
 update();
