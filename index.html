@@ -5,17 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PSR Broadcast Console</title>
 
-<!-- ✅ FONT UPGRADE -->
+<!-- FONT UPGRADE -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
 *{box-sizing:border-box}
 
-/* =========================
-   BASE FONT SYSTEM (UPGRADED FEEL)
-========================= */
-
+/* BASE */
 body{
   margin:0;
   font-family:Inter,system-ui,Arial;
@@ -24,10 +21,7 @@ body{
   overflow-x:hidden;
 }
 
-/* =========================
-   BACKGROUND VIDEO
-========================= */
-
+/* BACKGROUND VIDEO */
 #bgVideo{
   position:fixed;
   inset:0;
@@ -50,10 +44,25 @@ body{
   z-index:-4;
 }
 
-/* =========================
-   TOP BAR
-========================= */
+/* 🔥 NEW CONTAINER WRAP */
+.container{
+  position:relative;
+  z-index:2;
+  max-width:1100px;
+  margin:40px auto;
+  padding:20px;
 
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:18px;
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+}
+
+/* TOP BAR */
 .topbar{
   position:sticky;
   top:0;
@@ -86,26 +95,18 @@ body{
   50%{opacity:0.3}
 }
 
-/* =========================
-   LAYOUT
-========================= */
-
+/* APP */
 .app{
-  max-width:1200px;
-  margin:0 auto;
-  padding:70px 20px 20px;
+  width:100%;
+  margin:0;
   min-height:100dvh;
-
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
   gap:18px;
 }
 
-/* =========================
-   HEADER (MONTSERRAT BRANDING)
-========================= */
-
+/* HEADER */
 .header{
   text-align:center;
   margin-top:auto;
@@ -129,20 +130,14 @@ body{
   color:#555;
 }
 
-/* =========================
-   CONSOLE GRID
-========================= */
-
+/* CONSOLE */
 .console{
   display:grid;
   grid-template-columns: 1.4fr 1fr;
   gap:18px;
 }
 
-/* =========================
-   PANEL BASE
-========================= */
-
+/* PANEL */
 .panel{
   background:rgba(255,255,255,0.94);
   border:1px solid rgba(0,0,0,0.06);
@@ -151,10 +146,7 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   VIDEO PANELS
-========================= */
-
+/* VIDEO PANEL */
 .video-panel{
   position:relative;
   overflow:hidden;
@@ -187,10 +179,7 @@ body{
   padding:18px;
 }
 
-/* =========================
-   NOW PLAYING (UPGRADED TYPOGRAPHY)
-========================= */
-
+/* NOW PLAYING */
 #cover{
   width:140px;
   height:140px;
@@ -205,7 +194,6 @@ body{
   align-items:center;
 }
 
-/* ARTIST + TITLE SPLIT */
 .artist{
   font-size:12px;
   font-weight:500;
@@ -228,7 +216,6 @@ body{
   margin-top:4px;
 }
 
-/* STREAM */
 .stream{
   margin-top:14px;
   border-radius:10px;
@@ -236,10 +223,7 @@ body{
   border:1px solid rgba(255,255,255,0.15);
 }
 
-/* =========================
-   MESSAGE PANEL
-========================= */
-
+/* MESSAGE PANEL */
 .message-panel{
   position:relative;
   overflow:hidden;
@@ -266,19 +250,6 @@ body{
   color:#fff;
   margin-top:10px;
 }
-   .youtube-panel{
-  margin-top:10px;
-  border-radius:14px;
-  overflow:hidden;
-
-  border:1px solid rgba(0,180,255,.35);
-
-  box-shadow:
-    0 0 20px rgba(0,120,255,.25),
-    0 0 40px rgba(0,120,255,.15);
-
-  background:rgba(0,0,0,.4);
-}
 
 /* BUTTON */
 button{
@@ -293,13 +264,9 @@ button{
   color:#fff;
 }
 
-/* =========================
-   MOBILE FIX
-========================= */
-
+/* MOBILE */
 @media(max-width:900px){
   .app{
-    padding-top:85px;
     justify-content:flex-start;
   }
 
@@ -310,10 +277,6 @@ button{
   .header h1{
     font-size:38px;
     line-height:1;
-  }
-
-  .header h2{
-    margin-bottom:15px;
   }
 
   #cover{
@@ -327,7 +290,6 @@ button{
 
 <body>
 
-<!-- BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
@@ -338,6 +300,9 @@ button{
   <div><span class="live-dot"></span>PSR LIVE BROADCAST</div>
   <div>PRODIGALSUNRADIO.COM</div>
 </div>
+
+<!-- 🔥 CONTAINER WRAP START -->
+<div class="container">
 
 <div class="app">
 
@@ -360,18 +325,12 @@ button{
       <div class="panel-content">
 
         <div class="now-playing">
-
           <img id="cover" src="https://i.imgur.com/QPevqGi.png">
 
           <div>
             <div id="track">Loading...</div>
             <div class="sub">Live Studio Feed</div>
-
-            <div class="meters">
-              <span></span><span></span><span></span><span></span><span></span>
-            </div>
           </div>
-
         </div>
 
         <div class="stream">
@@ -379,13 +338,6 @@ button{
           src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff"
           frameborder="0"></iframe>
         </div>
-         <h3 style="
-margin-top:18px;
-margin-bottom:10px;
-color:#fff;
-letter-spacing:2px;
-font-size:14px;
-">
 
       </div>
     </div>
@@ -417,6 +369,9 @@ font-size:14px;
   </div>
 
 </div>
+
+</div>
+<!-- 🔥 CONTAINER WRAP END -->
 
 <script>
 
