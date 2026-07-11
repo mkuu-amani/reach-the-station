@@ -5,420 +5,336 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PSR Broadcast Console</title>
 
-<!-- FONT UPGRADE -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 
 <style>
+* { box-sizing: border-box; }
 
-*{box-sizing:border-box}
-
-/* BASE */
-body{
-  margin:0;
-  font-family:Inter,system-ui,Arial;
-  background:#f5f7fb;
-  color:#111;
-  overflow-x:hidden;
+body {
+    margin: 0;
+    font-family: Inter, system-ui, Arial;
+    background: #f5f7fb;
+    color: #111;
+    overflow-x: hidden;
 }
 
-/* BACKGROUND VIDEO */
-#bgVideo{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-5;
-  filter:brightness(0.9) saturate(1.4) contrast(1.1);
-  transform:scale(1.05);
+/* Background Video */
+#bgVideo {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -5;
+    filter: brightness(0.9) saturate(1.4) contrast(1.1);
+    transform: scale(1.05);
 }
 
-.overlay{
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(0,120,255,0.40), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(0,180,255,0.30), transparent 45%),
-    radial-gradient(circle at 50% 90%, rgba(0,80,255,0.25), transparent 55%),
-    linear-gradient(180deg, rgba(0,90,255,0.20), rgba(0,0,40,0.55));
-  z-index:-4;
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(0,120,255,0.40), transparent 40%),
+                radial-gradient(circle at 80% 30%, rgba(0,180,255,0.30), transparent 45%),
+                radial-gradient(circle at 50% 90%, rgba(0,80,255,0.25), transparent 55%),
+                linear-gradient(180deg, rgba(0,90,255,0.20), rgba(0,0,40,0.55));
+    z-index: -4;
 }
 
-/* 🔥 NEW CONTAINER WRAP */
-.container{
-  position:relative;
-  z-index:2;
-  max-width:1100px;
-  margin:40px auto;
-  padding:20px;
+/* GLASS CONTAINER */
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
 
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
+/* NEW: FULL WIDTH COVER BANNER */
+.cover-banner {
+    width: 100%;
+    height: 220px;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
 
-  border:1px solid rgba(255,255,255,0.18);
-  border-radius:18px;
+.cover-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
 
-  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+.cover-banner:hover img {
+    transform: scale(1.04);
+}
+
+.cover-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.65) 70%
+    );
+    z-index: 1;
+}
+
+.banner-content {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    right: 24px;
+    z-index: 2;
+    color: white;
+}
+
+.banner-content .station {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+.banner-content .tagline {
+    font-size: 13px;
+    letter-spacing: 2px;
+    opacity: 0.9;
 }
 
 /* TOP BAR */
-.topbar{
-  position:sticky;
-  top:0;
-  width:100%;
-  padding:10px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:rgba(255,255,255,0.85);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(0,0,0,0.05);
-  z-index:10;
-  font-size:12px;
-  letter-spacing:1.5px;
-  color:#333;
+.topbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    padding: 10px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    z-index: 10;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: #333;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 12px;
 }
 
-.live-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#ff2b2b;
-  display:inline-block;
-  margin-right:8px;
-  animation:pulse 1.4s infinite;
+/* Rest of your styles remain the same */
+.app { width: 100%; margin: 0; min-height: 85dvh; display: flex; flex-direction: column; gap: 14px; }
+
+.header { text-align: center; margin: 0; padding-top: 10px; }
+
+.header h1 {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #0066ff, #00c2ff, #ff00cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-@keyframes pulse{
-  0%,100%{opacity:1}
-  50%{opacity:0.3}
+.header h2 {
+    margin-top: 6px;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: #555;
 }
 
-/* APP */
-.app{
-  width:100%;
-  margin:0;
+.console { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
 
-  min-height:85dvh;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center; /* 🔥 KEY CHANGE */
-  align-items:center;
-
-  gap:14px; /* slightly tighter */
+.panel {
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* HEADER */
-.header{
-  text-align:center;
-  margin:0;
-  padding-top:10px;
+.video-panel { position: relative; overflow: hidden; min-height: 360px; border: 1px solid rgba(0,180,255,0.25); box-shadow: 0 0 25px rgba(0,120,255,0.15); }
+
+.panel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+
+.panel-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
+                radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
+    z-index: 1;
 }
 
-.header h1{
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  font-size:56px;
-  font-weight:900;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.panel-content { position: relative; z-index: 2; padding: 18px; }
+
+#cover {
+    width: 140px;
+    height: 140px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-.header h2{
-  margin-top:6px;
-  font-size:13px;
-  letter-spacing:3px;
-  color:#555;
+.now-playing { display: flex; gap: 16px; align-items: center; }
+
+.artist { font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.70); }
+
+.title { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.1; margin-top: 4px; }
+
+.sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
+
+.stream {
+    margin-top: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
 }
 
-/* CONSOLE */
-.console{
-  display:grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap:18px;
+button {
+    margin-top: 12px;
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(90deg, #0066ff, #00c2ff, #ff00cc);
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    color: #fff;
 }
 
-/* PANEL */
-.panel{
-  background:rgba(255,255,255,0.94);
-  border:1px solid rgba(0,0,0,0.06);
-  border-radius:14px;
-  padding:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+@media(max-width:900px) {
+    .app { justify-content: flex-start; }
+    .console { grid-template-columns: 1fr; }
+    .header h1 { font-size: 38px; line-height: 1; }
+    #cover { width: 110px; height: 110px; }
+    .cover-banner { height: 180px; }
 }
-
-/* VIDEO PANEL */
-.video-panel{
-  position:relative;
-  overflow:hidden;
-  min-height:360px;
-  border:1px solid rgba(0,180,255,0.25);
-  box-shadow:0 0 25px rgba(0,120,255,0.15);
-}
-
-.panel-video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:0;
-}
-
-.panel-overlay{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65)),
-    radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
-  z-index:1;
-}
-
-.panel-content{
-  position:relative;
-  z-index:2;
-  padding:18px;
-}
-
-/* NOW PLAYING */
-#cover{
-  width:140px;
-  height:140px;
-  border-radius:12px;
-  object-fit:cover;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-
-.now-playing{
-  display:flex;
-  gap:16px;
-  align-items:center;
-}
-
-.artist{
-  font-size:12px;
-  font-weight:500;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.70);
-}
-
-.title{
-  font-size:22px;
-  font-weight:800;
-  color:#fff;
-  line-height:1.1;
-  margin-top:4px;
-}
-
-.sub{
-  font-size:12px;
-  color:rgba(255,255,255,0.75);
-  margin-top:4px;
-}
-
-.stream{
-  margin-top:14px;
-  border-radius:10px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,0.15);
-}
-
-/* MESSAGE PANEL */
-.message-panel{
-  position:relative;
-  overflow:hidden;
-  min-height:360px;
-}
-
-.message-panel input,
-.message-panel textarea{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:10px;
-  border:1px solid rgba(0,0,0,0.1);
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(6px);
-  font-size:13px;
-}
-
-.message-panel h3{
-  color:#fff;
-}
-
-#status{
-  color:#fff;
-  margin-top:10px;
-}
-
-/* BUTTON */
-button{
-  margin-top:12px;
-  width:100%;
-  padding:13px;
-  background:linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
-  border:none;
-  border-radius:10px;
-  font-weight:800;
-  cursor:pointer;
-  color:#fff;
-}
-
-/* MOBILE */
-@media(max-width:900px){
-  .app{
-    justify-content:flex-start;
-  }
-
-  .console{
-    grid-template-columns:1fr;
-  }
-
-  .header h1{
-    font-size:38px;
-    line-height:1;
-  }
-
-  #cover{
-    width:110px;
-    height:110px;
-  }
-}
-
 </style>
 </head>
 
 <body>
 
 <video id="bgVideo" autoplay muted loop playsinline>
-  <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
+    <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
 
 <div class="overlay"></div>
 
 <div class="topbar">
-  <div><span class="live-dot"></span>PSR LIVE BROADCAST</div>
-  <div>PRODIGALSUNRADIO.COM</div>
+    <div><span class="live-dot"></span>PSR LIVE BROADCAST</div>
+    <div>PRODIGALSUNRADIO.COM</div>
 </div>
 
-<!-- 🔥 CONTAINER WRAP START -->
+<!-- 🔥 CONTAINER WRAP -->
 <div class="container">
 
-<div class="app">
-
-  <div class="header">
-    <h1>PRODIGAL SUN RADIO</h1>
-    <h2>LIVE BROADCAST CONSOLE</h2>
-  </div>
-
-  <div class="console">
-
-    <!-- NOW PLAYING -->
-    <div class="panel video-panel">
-
-      <video class="panel-video" autoplay muted loop playsinline>
-        <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
-      </video>
-
-      <div class="panel-overlay"></div>
-
-      <div class="panel-content">
-
-        <div class="now-playing">
-          <img id="cover" src="https://i.imgur.com/QPevqGi.png">
-
-          <div>
-            <div id="track">Loading...</div>
-            <div class="sub">Live Studio Feed</div>
-          </div>
+    <!-- NEW FULL WIDTH COVER BANNER -->
+    <div class="cover-banner">
+        <img id="banner-cover" src="https://i.imgur.com/QPevqGi.png" alt="Now Playing">
+        <div class="banner-content">
+            <div class="station">PRODIGAL SUN RADIO</div>
+            <div class="tagline">LIVE FROM THE STUDIO</div>
         </div>
-
-        <div class="stream">
-          <iframe width="100%" height="140"
-          src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff"
-          frameborder="0"></iframe>
-        </div>
-
-      </div>
     </div>
 
-    <!-- MESSAGE PANEL -->
-    <div class="panel video-panel message-panel">
+    <div class="app">
 
-      <video class="panel-video" autoplay muted loop playsinline>
-        <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
-      </video>
+        <div class="header">
+            <h1>PRODIGAL SUN RADIO</h1>
+            <h2>LIVE BROADCAST CONSOLE</h2>
+        </div>
 
-      <div class="panel-overlay"></div>
+        <div class="console">
+            <!-- Now Playing Panel -->
+            <div class="panel video-panel">
+                <video class="panel-video" autoplay muted loop playsinline>
+                    <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
+                </video>
+                <div class="panel-overlay"></div>
+                <div class="panel-content">
+                    <div class="now-playing">
+                        <img id="cover" src="https://i.imgur.com/QPevqGi.png">
+                        <div>
+                            <div id="track">Loading...</div>
+                            <div class="sub">Live Studio Feed</div>
+                        </div>
+                    </div>
 
-      <div class="panel-content">
+                    <div class="stream">
+                        <iframe width="100%" height="140" src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
 
-        <h3>Send Message to Studio</h3>
-
-        <input id="name" placeholder="Your Name">
-        <textarea id="message" placeholder="Your Message"></textarea>
-
-        <button onclick="sendMessage()">SEND</button>
-
-        <div id="status"></div>
-
-      </div>
-
+            <!-- Message Panel -->
+            <div class="panel video-panel message-panel">
+                <video class="panel-video" autoplay muted loop playsinline>
+                    <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
+                </video>
+                <div class="panel-overlay"></div>
+                <div class="panel-content">
+                    <h3>Send Message to Studio</h3>
+                    <input id="name" placeholder="Your Name">
+                    <textarea id="message" placeholder="Your Message"></textarea>
+                    <button onclick="sendMessage()">SEND</button>
+                    <div id="status"></div>
+                </div>
+            </div>
+        </div>
     </div>
-
-  </div>
-
 </div>
-
-</div>
-<!-- 🔥 CONTAINER WRAP END -->
 
 <script>
+const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 
-const API="https://api.radioking.io/widget/radio/the-channel-x/track/current";
+async function update() {
+    try {
+        const r = await fetch(API);
+        const d = await r.json();
 
-async function update(){
-  try{
-    const r=await fetch(API);
-    const d=await r.json();
+        document.getElementById("track").innerHTML = 
+            '<div class="artist">' + d.artist + '</div>' +
+            '<div class="title">' + d.title + '</div>';
 
-    document.getElementById("track").innerHTML =
-      '<div class="artist">'+d.artist+'</div>' +
-      '<div class="title">'+d.title+'</div>';
-
-    document.getElementById("cover").src =
-      d.cover || "https://i.imgur.com/QPevqGi.png";
-
-  }catch(e){}
+        const coverUrl = d.cover || "https://i.imgur.com/QPevqGi.png";
+        document.getElementById("cover").src = coverUrl;
+        document.getElementById("banner-cover").src = coverUrl;   // Sync banner too
+    } catch(e) {}
 }
 
 update();
-setInterval(update,15000);
+setInterval(update, 15000);
 
-async function sendMessage(){
-  const name=document.getElementById("name");
-  const message=document.getElementById("message");
-  const status=document.getElementById("status");
+async function sendMessage() {
+    const name = document.getElementById("name");
+    const message = document.getElementById("message");
+    const status = document.getElementById("status");
 
-  status.innerText="Sending...";
+    status.innerText = "Sending...";
 
-  await fetch("https://formspree.io/f/mykvabzl",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({name:name.value,message:message.value})
-  });
+    await fetch("https://formspree.io/f/mykvabzl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.value, message: message.value })
+    });
 
-  status.innerText="Message Sent ✔";
-
-  name.value="";
-  message.value="";
+    status.innerText = "Message Sent ✔";
+    name.value = "";
+    message.value = "";
 }
-
 </script>
 
 </body>
