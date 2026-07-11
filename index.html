@@ -48,7 +48,7 @@ body {
     border-radius: 18px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
-/* TALL COVER BANNER - Text Removed */
+/* TALL COVER BANNER */
 .cover-banner {
     width: 100%;
     height: 340px;
@@ -135,7 +135,8 @@ body {
     border-radius: 12px 12px 0 0;
     margin-bottom: 12px;
 }
-.app { width: 100%; margin: 0; min-height: 85dvh; display: flex; flex-direction: column; gap: 14px; }
+.app { width: 100%; margin: 0; min-height: 85dvh; display: flex; flex-direction: column; gap: 20px; }
+
 .header { text-align: center; margin: 0; padding-top: 10px; }
 .header h1 {
     margin: 0;
@@ -153,16 +154,42 @@ body {
     letter-spacing: 3px;
     color: #555;
 }
-.console { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+
+/* NEW FULL-WIDTH STACKED LAYOUT */
+.console {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Larger Panels */
 .panel {
     background: rgba(255,255,255,0.94);
     border: 1px solid rgba(0,0,0,0.06);
     border-radius: 14px;
-    padding: 18px;
+    padding: 24px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
-.video-panel { position: relative; overflow: hidden; min-height: 360px; border: 1px solid rgba(0,180,255,0.25); box-shadow: 0 0 25px rgba(0,120,255,0.15); }
-.panel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+
+/* Video Panels - Larger */
+.video-panel {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;     /* Increased height */
+    border: 1px solid rgba(0,180,255,0.25);
+    box-shadow: 0 0 25px rgba(0,120,255,0.15);
+}
+
+.panel-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
 .panel-overlay {
     position: absolute;
     inset: 0;
@@ -170,43 +197,95 @@ body {
                 radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
     z-index: 1;
 }
-.panel-content { position: relative; z-index: 2; padding: 18px; }
-#cover { width: 140px; height: 140px; border-radius: 12px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-.now-playing { display: flex; gap: 16px; align-items: center; }
-.artist { font-size: 32px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.70); }
-.title { font-size: 42px; font-weight: 800; color: #fff; line-height: 1.1; margin-top: 4px; }
-.sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
-.stream { margin-top: 14px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); }
+
+.panel-content { 
+    position: relative; 
+    z-index: 2; 
+    padding: 24px; 
+}
+
+/* Now Playing - Bigger */
+#cover { 
+    width: 180px; 
+    height: 180px; 
+    border-radius: 12px; 
+    object-fit: cover; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+}
+
+.now-playing { 
+    display: flex; 
+    gap: 20px; 
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.artist { 
+    font-size: 32px; 
+    font-weight: 500; 
+    letter-spacing: 1.5px; 
+    text-transform: uppercase; 
+    color: rgba(255,255,255,0.70); 
+}
+
+.title { 
+    font-size: 42px; 
+    font-weight: 800; 
+    color: #fff; 
+    line-height: 1.1; 
+    margin-top: 4px; 
+}
+
+.sub { 
+    font-size: 14px; 
+    color: rgba(255,255,255,0.75); 
+    margin-top: 4px; 
+}
+
+.stream { 
+    margin-top: 20px; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    border: 1px solid rgba(255,255,255,0.15); 
+}
+
+/* Message Panel */
 .message-panel input,
 .message-panel textarea {
     width: 100%;
-    padding: 12px;
-    margin-top: 10px;
+    padding: 14px;
+    margin-top: 12px;
     border-radius: 10px;
     border: 1px solid rgba(0,0,0,0.1);
     background: rgba(255,255,255,0.92);
     backdrop-filter: blur(6px);
-    font-size: 13px;
+    font-size: 14px;
 }
-.message-panel h3 { color: #fff; margin-top: 0; }
+.message-panel h3 { 
+    color: #fff; 
+    margin-top: 0; 
+    font-size: 20px;
+}
+
 button {
-    margin-top: 12px;
+    margin-top: 16px;
     width: 100%;
-    padding: 13px;
+    padding: 16px;
     background: linear-gradient(90deg, #0066ff, #00c2ff, #ff00cc);
     border: none;
     border-radius: 10px;
     font-weight: 800;
     cursor: pointer;
     color: #fff;
+    font-size: 16px;
 }
+
 @media(max-width:900px) {
-    .app { justify-content: flex-start; }
-    .console { grid-template-columns: 1fr; }
     .header h1 { font-size: 38px; line-height: 1; }
-    #cover { width: 110px; height: 110px; }
+    #cover { width: 140px; height: 140px; }
     .cover-banner { height: 260px; }
     .clock-grid { grid-template-columns: repeat(2, 1fr); }
+    .video-panel { min-height: 380px; }
 }
 </style>
 </head>
@@ -224,7 +303,7 @@ button {
 
 <div class="container">
 
-    <!-- Tall Cover Banner (Clean - No Text) -->
+    <!-- Tall Cover Banner -->
     <div class="cover-banner">
         <img id="banner-cover" src="https://i.imgur.com/QPevqGi.png" alt="Now Playing">
     </div>
@@ -234,8 +313,10 @@ button {
             <h1>PRODIGAL SUN RADIO</h1>
             <h2>LIVE BROADCAST CONSOLE</h2>
         </div>
+
+        <!-- Full Width Stacked Panels -->
         <div class="console">
-            <!-- Now Playing -->
+            <!-- Now Playing - Full Width & Larger -->
             <div class="panel video-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
@@ -250,12 +331,12 @@ button {
                         </div>
                     </div>
                     <div class="stream">
-                        <iframe width="100%" height="140" src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" frameborder="0"></iframe>
+                        <iframe width="100%" height="160" src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" frameborder="0"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- Message Panel -->
+            <!-- Message Panel - Full Width & Larger -->
             <div class="panel video-panel message-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
@@ -264,8 +345,8 @@ button {
                 <div class="panel-content">
                     <h3>Send Message to Studio</h3>
                     <input id="name" placeholder="Your Name">
-                    <textarea id="message" placeholder="Your Message" rows="5"></textarea>
-                    <button onclick="sendMessage()">SEND</button>
+                    <textarea id="message" placeholder="Your Message" rows="6"></textarea>
+                    <button onclick="sendMessage()">SEND MESSAGE</button>
                     <div id="status"></div>
                 </div>
             </div>
@@ -274,9 +355,7 @@ button {
 
     <!-- WORLD CLOCKS -->
     <div class="world-clock-panel">
-        <div class="world-clock-title">
-            🌍 PSR WORLD CLOCKS
-        </div>
+        <div class="world-clock-title">🌍 PSR WORLD CLOCKS</div>
         <div class="clock-grid">
             <div class="clock">
                 <div class="clock-city">🇬🇧 LONDON</div>
@@ -322,7 +401,6 @@ async function updateTrack() {
 // World Clocks
 function updateWorldClocks() {
     const options = { hour: 'numeric', minute: '2-digit', hour12: true };
-    
     document.getElementById("london").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Europe/London' }).format(new Date());
     document.getElementById("kingston").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'America/Jamaica' }).format(new Date());
     document.getElementById("newyork").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'America/New_York' }).format(new Date());
