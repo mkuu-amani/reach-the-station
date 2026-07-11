@@ -55,26 +55,26 @@ body {
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
 
-/* NEW: FULL WIDTH COVER BANNER */
+/* FULL WIDTH COVER BANNER - TALLER */
 .cover-banner {
     width: 100%;
-    height: 220px;
+    height: 340px;           /* Much taller as requested */
     border-radius: 14px;
     overflow: hidden;
     position: relative;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 28px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
 }
 
 .cover-banner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    transition: transform 0.8s ease;
 }
 
 .cover-banner:hover img {
-    transform: scale(1.04);
+    transform: scale(1.05);
 }
 
 .cover-banner::after {
@@ -83,34 +83,34 @@ body {
     inset: 0;
     background: linear-gradient(
         to bottom,
-        rgba(0,0,0,0.15),
-        rgba(0,0,0,0.65) 70%
+        rgba(0,0,0,0.1),
+        rgba(0,0,0,0.75) 75%
     );
     z-index: 1;
 }
 
 .banner-content {
     position: absolute;
-    bottom: 20px;
-    left: 24px;
-    right: 24px;
+    bottom: 28px;
+    left: 28px;
+    right: 28px;
     z-index: 2;
     color: white;
 }
 
 .banner-content .station {
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 900;
     letter-spacing: 3px;
-    margin-bottom: 4px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    margin-bottom: 6px;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.7);
 }
 
 .banner-content .tagline {
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 2px;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 /* TOP BAR */
@@ -133,10 +133,21 @@ body {
     margin-bottom: 12px;
 }
 
-/* Rest of your styles remain the same */
-.app { width: 100%; margin: 0; min-height: 85dvh; display: flex; flex-direction: column; gap: 14px; }
+/* APP */
+.app {
+    width: 100%;
+    margin: 0;
+    min-height: 85dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
 
-.header { text-align: center; margin: 0; padding-top: 10px; }
+.header {
+    text-align: center;
+    margin: 0;
+    padding-top: 10px;
+}
 
 .header h1 {
     margin: 0;
@@ -156,8 +167,14 @@ body {
     color: #555;
 }
 
-.console { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+/* CONSOLE */
+.console {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 18px;
+}
 
+/* PANEL */
 .panel {
     background: rgba(255,255,255,0.94);
     border: 1px solid rgba(0,0,0,0.06);
@@ -166,9 +183,23 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-.video-panel { position: relative; overflow: hidden; min-height: 360px; border: 1px solid rgba(0,180,255,0.25); box-shadow: 0 0 25px rgba(0,120,255,0.15); }
+/* VIDEO PANEL */
+.video-panel {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    border: 1px solid rgba(0,180,255,0.25);
+    box-shadow: 0 0 25px rgba(0,120,255,0.15);
+}
 
-.panel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.panel-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
 
 .panel-overlay {
     position: absolute;
@@ -178,8 +209,13 @@ body {
     z-index: 1;
 }
 
-.panel-content { position: relative; z-index: 2; padding: 18px; }
+.panel-content {
+    position: relative;
+    z-index: 2;
+    padding: 18px;
+}
 
+/* NOW PLAYING */
 #cover {
     width: 140px;
     height: 140px;
@@ -188,13 +224,33 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-.now-playing { display: flex; gap: 16px; align-items: center; }
+.now-playing {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
 
-.artist { font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.70); }
+.artist {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.70);
+}
 
-.title { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.1; margin-top: 4px; }
+.title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-top: 4px;
+}
 
-.sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 4px; }
+.sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 4px;
+}
 
 .stream {
     margin-top: 14px;
@@ -203,6 +259,36 @@ body {
     border: 1px solid rgba(255,255,255,0.15);
 }
 
+/* MESSAGE PANEL - Restored original styling */
+.message-panel {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+}
+
+.message-panel input,
+.message-panel textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    font-size: 13px;
+}
+
+.message-panel h3 {
+    color: #fff;
+    margin-top: 0;
+}
+
+#status {
+    color: #fff;
+    margin-top: 10px;
+}
+
+/* BUTTON */
 button {
     margin-top: 12px;
     width: 100%;
@@ -215,12 +301,15 @@ button {
     color: #fff;
 }
 
+/* MOBILE */
 @media(max-width:900px) {
     .app { justify-content: flex-start; }
     .console { grid-template-columns: 1fr; }
     .header h1 { font-size: 38px; line-height: 1; }
     #cover { width: 110px; height: 110px; }
-    .cover-banner { height: 180px; }
+    .cover-banner { height: 260px; }           /* Still tall on mobile */
+    .banner-content { bottom: 20px; left: 20px; right: 20px; }
+    .banner-content .station { font-size: 18px; }
 }
 </style>
 </head>
@@ -238,10 +327,9 @@ button {
     <div>PRODIGALSUNRADIO.COM</div>
 </div>
 
-<!-- 🔥 CONTAINER WRAP -->
 <div class="container">
 
-    <!-- NEW FULL WIDTH COVER BANNER -->
+    <!-- TALL COVER ART BANNER -->
     <div class="cover-banner">
         <img id="banner-cover" src="https://i.imgur.com/QPevqGi.png" alt="Now Playing">
         <div class="banner-content">
@@ -258,7 +346,8 @@ button {
         </div>
 
         <div class="console">
-            <!-- Now Playing Panel -->
+
+            <!-- Now Playing -->
             <div class="panel video-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
@@ -279,7 +368,7 @@ button {
                 </div>
             </div>
 
-            <!-- Message Panel -->
+            <!-- Message Panel (Restored) -->
             <div class="panel video-panel message-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
@@ -288,11 +377,12 @@ button {
                 <div class="panel-content">
                     <h3>Send Message to Studio</h3>
                     <input id="name" placeholder="Your Name">
-                    <textarea id="message" placeholder="Your Message"></textarea>
+                    <textarea id="message" placeholder="Your Message" rows="5"></textarea>
                     <button onclick="sendMessage()">SEND</button>
                     <div id="status"></div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -306,12 +396,12 @@ async function update() {
         const d = await r.json();
 
         document.getElementById("track").innerHTML = 
-            '<div class="artist">' + d.artist + '</div>' +
-            '<div class="title">' + d.title + '</div>';
+            '<div class="artist">'+d.artist+'</div>' +
+            '<div class="title">'+d.title+'</div>';
 
         const coverUrl = d.cover || "https://i.imgur.com/QPevqGi.png";
         document.getElementById("cover").src = coverUrl;
-        document.getElementById("banner-cover").src = coverUrl;   // Sync banner too
+        document.getElementById("banner-cover").src = coverUrl;
     } catch(e) {}
 }
 
@@ -327,8 +417,8 @@ async function sendMessage() {
 
     await fetch("https://formspree.io/f/mykvabzl", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.value, message: message.value })
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({name: name.value, message: message.value})
     });
 
     status.innerText = "Message Sent ✔";
