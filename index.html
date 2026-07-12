@@ -47,9 +47,28 @@ body {
 }
 
 /* Player */
-.stream { margin-top: 20px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); display: flex; justify-content: center; }
+.stream { 
+    margin-top: 20px; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    border: 1px solid rgba(255,255,255,0.15); 
+    background: rgba(0,0,0,0.4); 
+    display: flex; 
+    justify-content: center;
+}
 .desktop-player iframe { width: 100%; height: 145px; border: none; }
-.mobile-player { width: 100%; max-width: 275px; margin: 0 auto; display: none; }
+.mobile-player { 
+    width: 100%; 
+    max-width: 100%;     /* Full width */
+    margin: 0 auto; 
+    display: none; 
+}
+.mobile-player iframe {
+    width: 100% !important;   /* Force full width */
+    height: 365px !important;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);
+}
 
 /* Message Panel - Restored */
 .message-panel input, .message-panel textarea {
@@ -129,19 +148,19 @@ button {
                             <div class="sub">Live Studio Feed</div>
                         </div>
                     </div>
-                    
+                   
                     <div class="stream">
                         <!-- Desktop Player -->
                         <div class="desktop-player">
-                            <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=h&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=undefined&l=470&v=2" 
-                                style="border-radius: 5px; width: 570px; height: 145px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" 
+                            <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=h&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=undefined&l=470&v=2"
+                                style="border-radius: 5px; width: 100%; height: 145px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);"
                                 frameBorder="0"></iframe>
                             <script type="text/javascript" src="https://player.radioking.io/scripts/iframe.bundle.js"></script>
                         </div>
-                        <!-- Mobile Player -->
+                        <!-- Mobile Player - Full Width -->
                         <div class="mobile-player" style="display:none;">
-                            <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=v&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=365&l=undefined&v=2" 
-                                style="border-radius: 1px; width: 670px; height: 145px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" 
+                            <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=v&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=365&l=undefined&v=2"
+                                style="border-radius: 5px; width: 100%; height: 365px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);"
                                 frameBorder="0"></iframe>
                             <script type="text/javascript" src="https://player.radioking.io/scripts/iframe.bundle.js"></script>
                         </div>
@@ -149,7 +168,7 @@ button {
                 </div>
             </div>
 
-            <!-- Message Panel - Restored -->
+            <!-- Message Panel -->
             <div class="panel video-panel message-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
@@ -228,6 +247,6 @@ async function sendMessage() {
     name.value = "";
     message.value = "";
 }
-</script>
+</style>
 </body>
 </html>
