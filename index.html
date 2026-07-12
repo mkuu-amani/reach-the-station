@@ -49,10 +49,10 @@ body {
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
 
-/* RESPONSIVE PULSATING BANNER */
+/* TALLER RESPONSIVE BANNER */
 .pulsating-banner {
     width: 100%;
-    max-height: 420px;           /* Increased max height */
+    max-height: 520px;           /* Increased for full visibility */
     border-radius: 14px;
     overflow: hidden;
     position: relative;
@@ -63,9 +63,9 @@ body {
 
 .pulsating-banner img {
     width: 100%;
-    height: auto;                /* Changed to auto */
+    height: auto;
     display: block;
-    object-fit: contain;         /* Prevents cropping */
+    object-fit: contain;
     transition: transform 0.6s ease;
 }
 
@@ -78,7 +78,7 @@ body {
     50% { box-shadow: 0 15px 60px rgba(255, 180, 0, 0.9); }
 }
 
-/* Rest of your styles (unchanged) */
+/* Rest of styles */
 .world-clock-panel {
     margin-top: 28px;
     padding: 18px;
@@ -206,7 +206,7 @@ button {
 @media(max-width:900px) {
     .header h1 { font-size: 38px; line-height: 1; }
     #cover { width: 140px; height: 140px; }
-    .pulsating-banner { max-height: 280px; }
+    .pulsating-banner { max-height: 340px; }
     .clock-grid { grid-template-columns: repeat(2, 1fr); }
     .video-panel { min-height: 380px; }
 }
@@ -226,7 +226,7 @@ button {
 
 <div class="container">
 
-    <!-- Responsive Pulsating Banner -->
+    <!-- Tall Responsive Banner -->
     <div class="pulsating-banner">
         <img src="https://static.wixstatic.com/media/4657a4_a535786b4ec443ea997191fe4fcb6d19~mv2.png" alt="Prodigal Sun Radio Banner">
     </div>
@@ -305,7 +305,7 @@ button {
 </div>
 
 <script>
-// Track Update
+// Track Update + World Clocks (unchanged)
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 async function updateTrack() {
     try {
@@ -319,7 +319,6 @@ async function updateTrack() {
     } catch(e) {}
 }
 
-// World Clocks
 function updateWorldClocks() {
     const options = { hour: 'numeric', minute: '2-digit', hour12: true };
     document.getElementById("london").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Europe/London' }).format(new Date());
@@ -329,7 +328,6 @@ function updateWorldClocks() {
     document.getElementById("tokyo").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Tokyo' }).format(new Date());
 }
 
-// Initialize
 updateTrack();
 setInterval(updateTrack, 15000);
 updateWorldClocks();
