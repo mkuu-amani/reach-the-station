@@ -14,21 +14,20 @@ body {
     color: #111;
     overflow-x: hidden;
 }
-/* Background + Container + Banner styles (same as before) */
+/* Background Video + Overlay */
 #bgVideo { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -5; filter: brightness(0.9) saturate(1.4) contrast(1.1); transform: scale(1.05); }
 .overlay { position: fixed; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(0,120,255,0.40), transparent 40%), radial-gradient(circle at 80% 30%, rgba(0,180,255,0.30), transparent 45%), radial-gradient(circle at 50% 90%, rgba(0,80,255,0.25), transparent 55%), linear-gradient(180deg, rgba(0,90,255,0.20), rgba(0,0,40,0.55)); z-index: -4; }
 
+/* Container + Banner */
 .container {
     position: relative; z-index: 2; max-width: 1100px; margin: 40px auto; padding: 32px 20px 40px;
     background: rgba(255,255,255,0.12); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.18);
     border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
-
 .pulsating-banner {
     width: 100%; max-height: 560px; min-height: 380px; border-radius: 14px; overflow: hidden;
-    position: relative; margin-bottom: 32px; background: #000;
+    position: relative; margin-bottom: 32px; background: #000; display: flex; align-items: center; justify-content: center;
     box-shadow: 0 15px 40px rgba(0, 100, 255, 0.6); animation: pulse-glow 3.5s ease-in-out infinite;
-    display: flex; align-items: center; justify-content: center;
 }
 .pulsating-banner img { width: 100%; height: auto; max-height: 100%; object-fit: contain; }
 @keyframes pulse-glow { 0%,100% { box-shadow: 0 15px 40px rgba(0,100,255,0.6); } 50% { box-shadow: 0 20px 70px rgba(0,180,255,0.9); } }
@@ -37,7 +36,8 @@ body {
 .now-playing { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; margin-bottom: 20px; }
 #cover { width: 160px; height: 160px; border-radius: 12px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
 .artist { font-size: 28px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.70); }
-.title { font-size: 36px; font-weight: 800; color: #fff; line-height: 1.1; }
+.title { font-size: 36px; font-weight: 800; color: #fff; line-height: 1.1; margin-top: 4px; }
+.sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 4px; }
 
 @media (min-width: 901px) {
     .now-playing { flex-direction: row; align-items: center; text-align: left; gap: 20px; }
@@ -48,11 +48,27 @@ body {
 
 /* Player */
 .stream { margin-top: 20px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); display: flex; justify-content: center; }
-.desktop-player iframe { width: 100%; height: 180px; border: none; }
+.desktop-player iframe { width: 100%; height: 145px; border: none; }
 .mobile-player { width: 100%; max-width: 275px; margin: 0 auto; display: none; }
 
+/* Message Panel - Restored */
+.message-panel input, .message-panel textarea {
+    width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px); font-size: 13px;
+}
+.message-panel h3 { color: #fff; margin-top: 0; }
+
+button {
+    margin-top: 12px; width: 100%; padding: 13px;
+    background: linear-gradient(90deg,#0066ff,#00c2ff,#ff00cc);
+    border: none; border-radius: 10px; font-weight: 800; cursor: pointer; color: #fff;
+}
+
+/* Other styles */
 .topbar { position: sticky; top: 0; width: 100%; padding: 10px 18px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 10; font-size: 12px; letter-spacing: 1.5px; color: #333; border-radius: 12px 12px 0 0; margin-bottom: 12px; }
 .app { width: 100%; margin: 0; min-height: 85dvh; display: flex; flex-direction: column; gap: 20px; }
+.header { text-align: center; margin: 0; padding-top: 10px; }
 .header h1 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 56px; font-weight: 900; letter-spacing: 2px; background: linear-gradient(90deg, #0066ff, #00c2ff, #ff00cc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .header h2 { margin-top: 6px; font-size: 13px; letter-spacing: 3px; color: #555; }
 .console { display: flex; flex-direction: column; gap: 20px; width: 100%; }
@@ -68,7 +84,7 @@ body {
 .clock-city { font-size: 12px; letter-spacing: 1.5px; opacity: .75; margin-bottom: 6px; }
 .clock-time { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; }
 @media(max-width:900px) {
-    .header h1 { font-size: 38px; }
+    .header h1 { font-size: 38px; line-height: 1; }
     .video-panel { min-height: 380px; }
     .clock-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -99,6 +115,7 @@ body {
         </div>
 
         <div class="console">
+            <!-- Now Playing -->
             <div class="panel video-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
@@ -114,12 +131,15 @@ body {
                     </div>
                     
                     <div class="stream">
-                        <!-- Desktop -->
+                        <!-- Desktop Player -->
                         <div class="desktop-player">
-                            <iframe width="100%" height="180" src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" frameborder="0" allowfullscreen></iframe>
+                            <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=h&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=undefined&l=470&v=2" 
+                                style="border-radius: 5px; width: 470px; height: 145px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" 
+                                frameBorder="0"></iframe>
+                            <script type="text/javascript" src="https://player.radioking.io/scripts/iframe.bundle.js"></script>
                         </div>
-                        <!-- Mobile -->
-                        <div class="mobile-player">
+                        <!-- Mobile Player -->
+                        <div class="mobile-player" style="display:none;">
                             <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=v&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=365&l=undefined&v=2" 
                                 style="border-radius: 5px; width: 275px; height: 365px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" 
                                 frameBorder="0"></iframe>
@@ -129,7 +149,7 @@ body {
                 </div>
             </div>
 
-            <!-- Message Panel -->
+            <!-- Message Panel - Restored -->
             <div class="panel video-panel message-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
@@ -138,15 +158,15 @@ body {
                 <div class="panel-content">
                     <h3>Send Message to Studio</h3>
                     <input id="name" placeholder="Your Name">
-                    <textarea id="message" placeholder="Your Message" rows="6"></textarea>
-                    <button onclick="sendMessage()">SEND MESSAGE</button>
+                    <textarea id="message" placeholder="Your Message" rows="5"></textarea>
+                    <button onclick="sendMessage()">SEND</button>
                     <div id="status"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- World Clocks (unchanged) -->
+    <!-- World Clocks -->
     <div class="world-clock-panel">
         <div class="world-clock-title">🌍 PSR WORLD CLOCKS</div>
         <div class="clock-grid">
@@ -205,7 +225,8 @@ async function sendMessage() {
         body: JSON.stringify({name: name.value, message: message.value})
     });
     status.innerText = "Message Sent ✔";
-    name.value = ""; message.value = "";
+    name.value = "";
+    message.value = "";
 }
 </script>
 </body>
