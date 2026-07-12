@@ -48,32 +48,35 @@ body {
     border-radius: 18px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
-/* TALL COVER BANNER */
-.cover-banner {
+
+/* PULSATING BANNER */
+.pulsating-banner {
     width: 100%;
     height: 340px;
     border-radius: 14px;
     overflow: hidden;
     position: relative;
     margin-bottom: 28px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    animation: pulse-glow 4s ease-in-out infinite;
 }
-.cover-banner img {
+
+.pulsating-banner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s ease;
+    transition: transform 0.6s ease;
 }
-.cover-banner:hover img {
-    transform: scale(1.05);
+
+.pulsating-banner:hover img {
+    transform: scale(1.03);
 }
-.cover-banner::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.75) 75%);
-    z-index: 1;
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 15px 40px rgba(255, 100, 0, 0.6); }
+    50% { box-shadow: 0 15px 60px rgba(255, 180, 0, 0.9); }
 }
+
 /* WORLD CLOCK PANEL */
 .world-clock-panel {
     margin-top: 28px;
@@ -116,7 +119,8 @@ body {
     font-size: 20px;
     font-weight: 800;
 }
-/* Rest of styles */
+
+/* Other styles (unchanged) */
 .topbar {
     position: sticky;
     top: 0;
@@ -136,7 +140,6 @@ body {
     margin-bottom: 12px;
 }
 .app { width: 100%; margin: 0; min-height: 85dvh; display: flex; flex-direction: column; gap: 20px; }
-
 .header { text-align: center; margin: 0; padding-top: 10px; }
 .header h1 {
     margin: 0;
@@ -154,16 +157,7 @@ body {
     letter-spacing: 3px;
     color: #555;
 }
-
-/* NEW FULL-WIDTH STACKED LAYOUT */
-.console {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-}
-
-/* Larger Panels */
+.console { display: flex; flex-direction: column; gap: 20px; width: 100%; }
 .panel {
     background: rgba(255,255,255,0.94);
     border: 1px solid rgba(0,0,0,0.06);
@@ -171,25 +165,8 @@ body {
     padding: 24px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
-
-/* Video Panels - Larger */
-.video-panel {
-    position: relative;
-    overflow: hidden;
-    min-height: 420px;     /* Increased height */
-    border: 1px solid rgba(0,180,255,0.25);
-    box-shadow: 0 0 25px rgba(0,120,255,0.15);
-}
-
-.panel-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-}
-
+.video-panel { position: relative; overflow: hidden; min-height: 420px; border: 1px solid rgba(0,180,255,0.25); box-shadow: 0 0 25px rgba(0,120,255,0.15); }
+.panel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
 .panel-overlay {
     position: absolute;
     inset: 0;
@@ -197,61 +174,14 @@ body {
                 radial-gradient(circle at 30% 20%, rgba(0,120,255,0.25), transparent 60%);
     z-index: 1;
 }
-
-.panel-content { 
-    position: relative; 
-    z-index: 2; 
-    padding: 24px; 
-}
-
-/* Now Playing - Bigger */
-#cover { 
-    width: 180px; 
-    height: 180px; 
-    border-radius: 12px; 
-    object-fit: cover; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
-}
-
-.now-playing { 
-    display: flex; 
-    gap: 20px; 
-    align-items: center; 
-    margin-bottom: 20px;
-}
-
-.artist { 
-    font-size: 32px; 
-    font-weight: 500; 
-    letter-spacing: 1.5px; 
-    text-transform: uppercase; 
-    color: rgba(255,255,255,0.70); 
-}
-
-.title { 
-    font-size: 42px; 
-    font-weight: 800; 
-    color: #fff; 
-    line-height: 1.1; 
-    margin-top: 4px; 
-}
-
-.sub { 
-    font-size: 14px; 
-    color: rgba(255,255,255,0.75); 
-    margin-top: 4px; 
-}
-
-.stream { 
-    margin-top: 20px; 
-    border-radius: 10px; 
-    overflow: hidden; 
-    border: 1px solid rgba(255,255,255,0.15); 
-}
-
-/* Message Panel */
-.message-panel input,
-.message-panel textarea {
+.panel-content { position: relative; z-index: 2; padding: 24px; }
+#cover { width: 180px; height: 180px; border-radius: 12px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.now-playing { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
+.artist { font-size: 32px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.70); }
+.title { font-size: 42px; font-weight: 800; color: #fff; line-height: 1.1; margin-top: 4px; }
+.sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 4px; }
+.stream { margin-top: 20px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); }
+.message-panel input, .message-panel textarea {
     width: 100%;
     padding: 14px;
     margin-top: 12px;
@@ -261,12 +191,7 @@ body {
     backdrop-filter: blur(6px);
     font-size: 14px;
 }
-.message-panel h3 { 
-    color: #fff; 
-    margin-top: 0; 
-    font-size: 20px;
-}
-
+.message-panel h3 { color: #fff; margin-top: 0; font-size: 20px; }
 button {
     margin-top: 16px;
     width: 100%;
@@ -279,11 +204,10 @@ button {
     color: #fff;
     font-size: 16px;
 }
-
 @media(max-width:900px) {
     .header h1 { font-size: 38px; line-height: 1; }
     #cover { width: 140px; height: 140px; }
-    .cover-banner { height: 260px; }
+    .pulsating-banner { height: 260px; }
     .clock-grid { grid-template-columns: repeat(2, 1fr); }
     .video-panel { min-height: 380px; }
 }
@@ -303,9 +227,9 @@ button {
 
 <div class="container">
 
-    <!-- Tall Cover Banner -->
-    <div class="cover-banner">
-        <img id="banner-cover" src="https://i.imgur.com/QPevqGi.png" alt="Now Playing">
+    <!-- Pulsating Banner -->
+    <div class="pulsating-banner">
+        <img src="/home/workdir/attachments/GitHub Social copy.png" alt="Prodigal Sun Radio Banner">
     </div>
 
     <div class="app">
@@ -314,9 +238,8 @@ button {
             <h2>LIVE BROADCAST CONSOLE</h2>
         </div>
 
-        <!-- Full Width Stacked Panels -->
         <div class="console">
-            <!-- Now Playing - Full Width & Larger -->
+            <!-- Now Playing -->
             <div class="panel video-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_6eda907b96f946c5a7d5d65d21e9c679/1080p/mp4/file.mp4">
@@ -336,7 +259,7 @@ button {
                 </div>
             </div>
 
-            <!-- Message Panel - Full Width & Larger -->
+            <!-- Message Panel -->
             <div class="panel video-panel message-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
                     <source src="https://video.wixstatic.com/video/4657a4_ed23124ce0fe4a389be438464a925a0c/720p/mp4/file.mp4">
@@ -394,7 +317,6 @@ async function updateTrack() {
             '<div class="title">'+d.title+'</div>';
         const coverUrl = d.cover || "https://i.imgur.com/QPevqGi.png";
         document.getElementById("cover").src = coverUrl;
-        document.getElementById("banner-cover").src = coverUrl;
     } catch(e) {}
 }
 
