@@ -84,7 +84,7 @@ body {
     50% { box-shadow: 0 20px 70px rgba(0, 180, 255, 0.9); }
 }
 
-/* Now Playing - Mobile Friendly */
+/* Now Playing */
 .now-playing {
     display: flex;
     flex-direction: column;
@@ -102,76 +102,48 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-.artist {
-    font-size: 28px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.70);
-}
+.artist { font-size: 28px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.70); }
+.title { font-size: 36px; font-weight: 800; color: #fff; line-height: 1.1; margin-top: 4px; }
+.sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 4px; }
 
-.title {
-    font-size: 36px;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.1;
-    margin-top: 4px;
-}
-
-.sub {
-    font-size: 14px;
-    color: rgba(255,255,255,0.75);
-    margin-top: 4px;
-}
-
-/* Desktop Now Playing */
 @media (min-width: 901px) {
-    .now-playing {
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-        gap: 20px;
-    }
-    #cover {
-        width: 180px;
-        height: 180px;
-    }
+    .now-playing { flex-direction: row; align-items: center; text-align: left; gap: 20px; }
+    #cover { width: 180px; height: 180px; }
     .artist { font-size: 32px; }
     .title { font-size: 42px; }
 }
 
 @media (max-width: 480px) {
-    #cover {
-        width: 140px;
-        height: 140px;
-    }
+    #cover { width: 140px; height: 140px; }
     .artist { font-size: 24px; }
     .title { font-size: 32px; }
 }
 
-/* Player - Better Mobile Visibility */
+/* Responsive Player */
 .stream {
     margin-top: 20px;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.15);
     background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
 }
 
-.stream iframe {
-    display: block;
+/* Desktop Player */
+.desktop-player iframe {
     width: 100%;
     height: 180px;
     border: none;
 }
 
-@media (max-width: 900px) {
-    .stream iframe {
-        height: 200px;
-    }
+/* Mobile Player */
+.mobile-player {
+    width: 100%;
+    max-width: 275px;
+    margin: 0 auto;
 }
 
-/* Rest of styles */
 .topbar {
     position: sticky;
     top: 0;
@@ -314,12 +286,24 @@ body {
                             <div class="sub">Live Studio Feed</div>
                         </div>
                     </div>
+                    
                     <div class="stream">
-                        <iframe width="100%" height="180" 
-                            src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" 
-                            frameborder="0" 
-                            allowfullscreen>
-                        </iframe>
+                        <!-- Desktop Player -->
+                        <div class="desktop-player">
+                            <iframe width="100%" height="180" 
+                                src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" 
+                                frameborder="0" allowfullscreen>
+                            </iframe>
+                        </div>
+                        
+                        <!-- Mobile Player Widget -->
+                        <div class="mobile-player" style="display:none;">
+                            <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=v&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=365&l=undefined&v=2" 
+                                style="border-radius: 5px; width: 275px; height: 365px; box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" 
+                                frameBorder="0">
+                            </iframe>
+                            <script type="text/javascript" src="https://player.radioking.io/scripts/iframe.bundle.js"></script>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -371,6 +355,7 @@ body {
 </div>
 
 <script>
+// Track Update
 const API = "https://api.radioking.io/widget/radio/the-channel-x/track/current";
 async function updateTrack() {
     try {
@@ -384,6 +369,7 @@ async function updateTrack() {
     } catch(e) {}
 }
 
+// World Clocks
 function updateWorldClocks() {
     const options = { hour: 'numeric', minute: '2-digit', hour12: true };
     document.getElementById("london").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Europe/London' }).format(new Date());
@@ -393,6 +379,17 @@ function updateWorldClocks() {
     document.getElementById("tokyo").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Tokyo' }).format(new Date());
 }
 
+// Responsive Player Switch
+function setupPlayer() {
+    const isMobile = window.innerWidth <= 900;
+    document.querySelector('.desktop-player').style.display = isMobile ? 'none' : 'block';
+    document.querySelector('.mobile-player').style.display = isMobile ? 'block' : 'none';
+}
+
+window.addEventListener('resize', setupPlayer);
+setupPlayer();
+
+// Initialize
 updateTrack();
 setInterval(updateTrack, 15000);
 updateWorldClocks();
