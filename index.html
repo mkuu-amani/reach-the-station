@@ -49,10 +49,10 @@ body {
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
 
-/* PULSATING BANNER */
+/* RESPONSIVE PULSATING BANNER */
 .pulsating-banner {
     width: 100%;
-    height: 340px;
+    max-height: 420px;           /* Increased max height */
     border-radius: 14px;
     overflow: hidden;
     position: relative;
@@ -63,13 +63,14 @@ body {
 
 .pulsating-banner img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;                /* Changed to auto */
+    display: block;
+    object-fit: contain;         /* Prevents cropping */
     transition: transform 0.6s ease;
 }
 
 .pulsating-banner:hover img {
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 @keyframes pulse-glow {
@@ -77,7 +78,7 @@ body {
     50% { box-shadow: 0 15px 60px rgba(255, 180, 0, 0.9); }
 }
 
-/* WORLD CLOCK PANEL */
+/* Rest of your styles (unchanged) */
 .world-clock-panel {
     margin-top: 28px;
     padding: 18px;
@@ -119,8 +120,6 @@ body {
     font-size: 20px;
     font-weight: 800;
 }
-
-/* Rest of styles */
 .topbar {
     position: sticky;
     top: 0;
@@ -207,7 +206,7 @@ button {
 @media(max-width:900px) {
     .header h1 { font-size: 38px; line-height: 1; }
     #cover { width: 140px; height: 140px; }
-    .pulsating-banner { height: 260px; }
+    .pulsating-banner { max-height: 280px; }
     .clock-grid { grid-template-columns: repeat(2, 1fr); }
     .video-panel { min-height: 380px; }
 }
@@ -227,7 +226,7 @@ button {
 
 <div class="container">
 
-    <!-- Pulsating Banner -->
+    <!-- Responsive Pulsating Banner -->
     <div class="pulsating-banner">
         <img src="https://static.wixstatic.com/media/4657a4_a535786b4ec443ea997191fe4fcb6d19~mv2.png" alt="Prodigal Sun Radio Banner">
     </div>
