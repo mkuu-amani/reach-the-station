@@ -49,7 +49,7 @@ body {
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
 
-/* PITCH BLACK + NEON BLUE BANNER */
+/* Banner */
 .pulsating-banner {
     width: 100%;
     max-height: 560px;
@@ -84,7 +84,7 @@ body {
     50% { box-shadow: 0 20px 70px rgba(0, 180, 255, 0.9); }
 }
 
-/* NOW PLAYING - FIXED MOBILE LAYOUT */
+/* Now Playing - Mobile Friendly */
 .now-playing {
     display: flex;
     flex-direction: column;
@@ -124,7 +124,7 @@ body {
     margin-top: 4px;
 }
 
-/* Desktop: Side-by-side */
+/* Desktop Now Playing */
 @media (min-width: 901px) {
     .now-playing {
         flex-direction: row;
@@ -140,7 +140,6 @@ body {
     .title { font-size: 42px; }
 }
 
-/* Small phones */
 @media (max-width: 480px) {
     #cover {
         width: 140px;
@@ -150,7 +149,29 @@ body {
     .title { font-size: 32px; }
 }
 
-/* Other styles */
+/* Player - Better Mobile Visibility */
+.stream {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.4);
+}
+
+.stream iframe {
+    display: block;
+    width: 100%;
+    height: 180px;
+    border: none;
+}
+
+@media (max-width: 900px) {
+    .stream iframe {
+        height: 200px;
+    }
+}
+
+/* Rest of styles */
 .topbar {
     position: sticky;
     top: 0;
@@ -205,30 +226,6 @@ body {
     z-index: 1;
 }
 .panel-content { position: relative; z-index: 2; padding: 24px; }
-.stream { margin-top: 20px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); }
-.message-panel input, .message-panel textarea {
-    width: 100%;
-    padding: 14px;
-    margin-top: 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(6px);
-    font-size: 14px;
-}
-.message-panel h3 { color: #fff; margin-top: 0; font-size: 20px; }
-button {
-    margin-top: 16px;
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(90deg, #0066ff, #00c2ff, #ff00cc);
-    border: none;
-    border-radius: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    color: #fff;
-    font-size: 16px;
-}
 .world-clock-panel {
     margin-top: 28px;
     padding: 18px;
@@ -318,7 +315,11 @@ button {
                         </div>
                     </div>
                     <div class="stream">
-                        <iframe width="100%" height="160" src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" frameborder="0"></iframe>
+                        <iframe width="100%" height="180" 
+                            src="https://player.radioking.io/the-channel-x/?c=%23000&c2=%230066ff" 
+                            frameborder="0" 
+                            allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
             </div>
