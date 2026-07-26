@@ -48,7 +48,6 @@ body {
     border-radius: 18px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
-
 /* PITCH BLACK + NEON BLUE BANNER */
 .pulsating-banner {
     width: 100%;
@@ -65,7 +64,6 @@ body {
     justify-content: center;
     background: #000000;
 }
-
 .pulsating-banner img {
     width: 100%;
     height: auto;
@@ -74,16 +72,13 @@ body {
     object-fit: contain;
     transition: transform 0.8s ease;
 }
-
 .pulsating-banner:hover img {
     transform: scale(1.015);
 }
-
 @keyframes pulse-glow {
     0%, 100% { box-shadow: 0 15px 40px rgba(0, 100, 255, 0.6); }
     50% { box-shadow: 0 20px 70px rgba(0, 180, 255, 0.9); }
 }
-
 /* NOW PLAYING - FIXED MOBILE LAYOUT */
 .now-playing {
     display: flex;
@@ -93,7 +88,6 @@ body {
     gap: 16px;
     margin-bottom: 20px;
 }
-
 #cover {
     width: 160px;
     height: 160px;
@@ -101,7 +95,6 @@ body {
     object-fit: cover;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
-
 .artist {
     font-size: 28px;
     font-weight: 500;
@@ -109,7 +102,6 @@ body {
     text-transform: uppercase;
     color: rgba(255,255,255,0.70);
 }
-
 .title {
     font-size: 36px;
     font-weight: 800;
@@ -117,13 +109,11 @@ body {
     line-height: 1.1;
     margin-top: 4px;
 }
-
 .sub {
     font-size: 14px;
     color: rgba(255,255,255,0.75);
     margin-top: 4px;
 }
-
 /* Desktop: Side-by-side */
 @media (min-width: 901px) {
     .now-playing {
@@ -139,7 +129,6 @@ body {
     .artist { font-size: 32px; }
     .title { font-size: 42px; }
 }
-
 /* Small phones */
 @media (max-width: 480px) {
     #cover {
@@ -149,7 +138,6 @@ body {
     .artist { font-size: 24px; }
     .title { font-size: 32px; }
 }
-
 /* Other styles */
 .topbar {
     position: sticky;
@@ -270,6 +258,53 @@ button {
     font-size: 20px;
     font-weight: 800;
 }
+
+/* SOCIAL MEDIA PANEL */
+.social-panel {
+    margin-top: 28px;
+    padding: 24px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    text-align: center;
+    color: white;
+}
+.social-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+.social-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.social-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    background: linear-gradient(135deg,#0066ff,#00c2ff,#ff00cc);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+.social-btn:hover {
+    transform: translateY(-6px) scale(1.08);
+    box-shadow: 0 15px 35px rgba(0,180,255,0.6);
+}
+
 @media(max-width:900px) {
     .header h1 { font-size: 38px; line-height: 1; }
     .video-panel { min-height: 380px; }
@@ -278,30 +313,24 @@ button {
 </style>
 </head>
 <body>
-
 <video id="bgVideo" autoplay muted loop playsinline>
     <source src="https://video.wixstatic.com/video/4657a4_aaaaed5a8c4a4ada90f76bf1ae6ce200/720p/mp4/file.mp4">
 </video>
 <div class="overlay"></div>
-
 <div class="topbar">
     <div><span class="live-dot"></span>PSR LIVE BROADCAST</div>
     <div>PRODIGALSUNRADIO.COM</div>
 </div>
-
 <div class="container">
-
     <!-- Banner -->
     <div class="pulsating-banner">
         <img src="https://static.wixstatic.com/media/4657a4_a535786b4ec443ea997191fe4fcb6d19~mv2.png" alt="Prodigal Sun Radio Banner">
     </div>
-
     <div class="app">
         <div class="header">
             <h1>PRODIGAL SUN RADIO</h1>
             <h2>LIVE BROADCAST CONSOLE</h2>
         </div>
-
         <div class="console">
             <!-- Now Playing -->
             <div class="panel video-panel">
@@ -318,11 +347,10 @@ button {
                         </div>
                     </div>
                     <div class="stream">
-                        <iframe  src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=h&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=undefined&l=100&v=2&fullsize" style="border-radius: 5px; width: 100%; height: 145px; -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);-moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" frameBorder="0" ></iframe><script type="text/javascript" src="https://player.radioking.io/scripts/iframe.bundle.js"></script>
+                        <iframe src="https://player.radioking.io/the-channel-x/?c=%23020000&c2=%23ECCC68&f=h&i=1&p=0&s=0&alb=1&li=1&popup=1&plc=0&h=undefined&l=100&v=2&fullsize" style="border-radius: 5px; width: 100%; height: 145px; -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);-moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);" frameBorder="0" ></iframe><script type="text/javascript" src="https://player.radioking.io/scripts/iframe.bundle.js"></script>
                     </div>
                 </div>
             </div>
-
             <!-- Message Panel -->
             <div class="panel video-panel message-panel">
                 <video class="panel-video" autoplay muted loop playsinline>
@@ -367,6 +395,18 @@ button {
         </div>
     </div>
 
+   <!-- SOCIAL MEDIA HUB -->
+<div class="social-panel">
+    <div class="social-title">FOLLOW PSR</div>
+    <div class="social-grid">
+        <a class="social-btn" href="https://x.com/Mkuu_Amani" target="_blank">𝕏</a>
+        <a class="social-btn" href="https://www.facebook.com/profile.php?id=61584234631643" target="_blank">f</a>
+        <a class="social-btn" href="https://www.instagram.com/prodigalsunradio/" target="_blank">◎</a>
+        <a class="social-btn" href="https://www.youtube.com/@prodigalsunradio" target="_blank">▶</a>
+        <a class="social-btn" href="https://www.prodigalsunradio.com/" target="_blank">🌐</a>
+    </div>
+</div>
+
 </div>
 
 <script>
@@ -382,7 +422,6 @@ async function updateTrack() {
         document.getElementById("cover").src = coverUrl;
     } catch(e) {}
 }
-
 function updateWorldClocks() {
     const options = { hour: 'numeric', minute: '2-digit', hour12: true };
     document.getElementById("london").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Europe/London' }).format(new Date());
@@ -391,12 +430,10 @@ function updateWorldClocks() {
     document.getElementById("johannesburg").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Africa/Johannesburg' }).format(new Date());
     document.getElementById("tokyo").textContent = new Intl.DateTimeFormat('en-US', { ...options, timeZone: 'Asia/Tokyo' }).format(new Date());
 }
-
 updateTrack();
 setInterval(updateTrack, 15000);
 updateWorldClocks();
 setInterval(updateWorldClocks, 10000);
-
 async function sendMessage() {
     const name = document.getElementById("name");
     const message = document.getElementById("message");
